@@ -2920,3 +2920,159 @@
 //     return 0;
 // }
 
+// Not Four(DP)
+// #include <bits/stdc++.h>
+// using namespace std;
+// const int LEN = 12;
+// // fortune[i][j]: 共i位,首位为j时符合条件
+// // digit[i]: i位
+// int fortune[LEN + 1][10], digit[LEN + 1];
+// void init()
+// {
+//     fortune[0][0] = 1;
+//     for (int i = 1; i <= LEN; i++)
+//     {
+//         // fortune[i][j] = sum(fortune[i - 1][k]) k=0,1,...,9 j!=4
+//         for (int j = 0; j < 10; j++)
+//         {
+//             for (int k = 0; k < 10; k++)
+//             {
+//                 if (j != 4)
+//                 {
+//                     fortune[i][j] += fortune[i - 1][k];
+//                 }
+//             }
+//         }
+//     }
+// }
+// int solve(int len)
+// {
+//     int ans = 0;
+//     // if n == 3241, len = 4, digit = [3,2,4,1]
+//     // i == 4, ans += fortune[3][j] j=0,1,2 即 0000-0999, 1000-1999, 2000-2999
+//     // i == 3, ans += fortune[2][j] j=0,1 即 000-099, 100-199 等价于 3000-3099, 3100-3199
+//     // i == 2, ans += fortune[1][j] j=0,1,2,3 即 00-09, 10-19, 20-29, 30-39 等价于 3200-3209, 3210-3219, 3220-3229, 3230-3239
+//     // i == 1, ans += fortune[0][j] j=0 即 0, *1* 等价于 3240, *3241* (舍去)
+//     // 故但凡统计到首位为4的情况, 以后的情况均舍去(减1是由于后续程序考虑首位从未有4时补充加1的情况)
+//     for (int i = len; i >= 1; i--)
+//     {
+//         for (int j = 0; j < digit[i]; j++)
+//         {
+//             if (j != 4)
+//             {
+//                 ans += fortune[i][j];
+//             }
+//             if (digit[i] == 4)
+//             {
+//                 ans--;
+//                 break;
+//             }
+//         }
+//     }
+//     return ans;
+// }
+// int main()
+// {
+//     int n, len = 0;
+//     init();
+//     cin >> n;
+//     while (n > 0)
+//     {
+//         digit[++len] = n % 10;
+//         n /= 10;
+//     }
+//     // 求解[0,n]内不含4的符合条件
+//     cout << solve(len) + 1 << endl;
+//     return 0;
+// }
+
+// 快速幂
+// long long quick_pow(long long a, long long n)
+// {
+//     if (n == 1)
+//     {
+//         return a;
+//     }
+//     long long temp = quick_pow(a, n / 2);
+//     if (n % 2 == 0)
+//     {
+//         return temp * temp;
+//     }
+//     else
+//     {
+//         return a * temp * temp;
+//     }
+// }
+// long long quick_pow(long long a, long long n)
+// {
+//     long long base = a, res = 1;
+//     while (n > 0)
+//     {
+//         // a^n mod m = (a mod m)^n mod m
+//         if (n & 1)
+//         {
+//             res = (res * base) % m;
+//         }
+//         base = (base * base) % m;
+//         n >> 1;
+//         n >>= 1;
+//     }
+//     return res;
+// }
+
+// 矩阵快速幂
+// const int MAXN = 2; // 矩阵的阶
+// const int MOD = 1e9 + 7;
+// struct Matrix
+// {
+//     long long a[MAXN][MAXN];
+//     Matrix()
+//     {
+//         memset(a, 0, sizeof(a));
+//     }
+// };
+// Matrix Multi(Matrix a, Matrix b)
+// {
+//     Matrix res;
+//     for (int i = 0; i < MAXN; i++)
+//     {
+//         for (int j = 0; j < MAXN; j++)
+//         {
+//             for (int k = 0; k < MAXN; k++)
+//             {
+//                 res.a[i][j] = (res.a[i][j] + a.a[i][k] * b.a[k][j]) % MOD;
+//             }
+//         }
+//     }
+//     return res;
+// }
+// Matrix quick_pow(Matrix a, long long n)
+// {
+//     Matrix res;
+//     // 初始化单位矩阵
+//     for (int i = 0; i < MAXN; i++)
+//     {
+//         res.a[i][i] = 1;
+//     }
+//     while (n > 0)
+//     {
+//         if (n & 1)
+//         {
+//             res = Multi(res, a);
+//         }
+//         a = Multi(a, a);
+//         n >>= 1;
+//     }
+//     return res;
+// }
+
+// GCD/LCM(欧几里得)
+long long gcd(long long a, long long b)
+{
+    return b == 0 ? a : gcd(b, a % b);
+}
+// C++内置 __gcd(a, b);
+long long lcm(long long a, long long b)
+{
+    return a / gcd(a, b) * b;
+}
