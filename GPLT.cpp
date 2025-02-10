@@ -3067,12 +3067,141 @@
 // }
 
 // GCD/LCM(欧几里得)
-long long gcd(long long a, long long b)
-{
-    return b == 0 ? a : gcd(b, a % b);
-}
-// C++内置 __gcd(a, b);
-long long lcm(long long a, long long b)
-{
-    return a / gcd(a, b) * b;
-}
+// long long gcd(long long a, long long b)
+// {
+//     return b == 0 ? a : gcd(b, a % b);
+// }
+// // C++内置 __gcd(a, b);
+// long long lcm(long long a, long long b)
+// {
+//     return a / gcd(a, b) * b;
+// }
+// // 扩展欧几里得
+// // 若a,b互质,则ax+by=gcd(a,b)
+// // 若a,b不互质,则ax+by=gcd(a,b)=(a/gcd(a,b))*(b/gcd(a,b))*(gcd(a,b))
+// void exgcd(long long a, long long b, long long &x, long long &y)
+// {
+//     if (b == 0)
+//     {
+//         x = 1;
+//         y = 0;
+//         return;
+//     }
+//     exgcd(b, a % b, x, y);
+//     long long t = x;
+//     x = y;
+//     y = t - (a / b) * y;
+// }
+
+// 线性筛(素数筛)
+// bool is_prime(long long n)
+// {
+//     if (n == 1)
+//     {
+//         return false;
+//     }
+//     for (int i = 2; i * i <= n; i++)
+//     {
+//         if (n % i == 0)
+//         {
+//             return false;
+//         }
+//     }
+//     return true;
+// }
+// const int MAXN = 1000005;
+// bool vis[MAXN + 1];
+// long long prime[MAXN + 1];
+// long long sieve(long long n)
+// {
+//     long long i, j, k = 0;
+//     for (i = 0; i <= n; i++)
+//     {
+//         vis[i] = false;
+//     }
+//     // 优化筛除
+//     for (i = 2; i * i <= n; i++)
+//     {
+//         if (!vis[i])
+//         {
+//             for (j = i * i; j <= n; j += i)
+//             {
+//                 vis[j] = true;
+//             }
+//         }
+//     }
+//     for (i = 2; i <= n; i++)
+//     {
+//         if (!vis[i])
+//         {
+//             prime[k++] = i;
+//         }
+//     }
+//     return k;
+// }
+
+// 区间素数
+// #include <iostream>
+// #include <cstring>
+// #include <cstdio>
+// using namespace std;
+// typedef long long LL;
+// const int N = 1e6 + 10;
+// bool st[N];
+// int primes[N], cnt;
+// void get_primes(LL n)
+// {
+//     memset(st, 0, sizeof st);
+//     cnt = 0;
+//     for (LL i = 2; i <= n; ++i)
+//     {
+//         if (!st[i])
+//             primes[cnt++] = i;
+//         for (LL j = 0; primes[j] * i <= n; ++j)
+//         {
+//             st[primes[j] * i] = true;
+//             if (i % primes[j] == 0)
+//                 break;
+//         }
+//     }
+// }
+// int main()
+// {
+//     LL l, r;
+//     while (scanf("%lld%lld", &l, &r) != EOF)
+//     {
+//         get_primes(50000);
+//         // 将[l,r]区间内所有的非素数用其最小质因子筛掉
+//         memset(st, 0, sizeof st);
+//         for (LL i = 0; i < cnt; ++i)
+//         {
+//             LL p = primes[i];
+//             for (LL j = max(2 * p, (l + p - 1) / p * p); j <= r; j += p)
+//                 st[j - l] = true;
+//         }
+//         cnt = 0;
+//         for (LL i = 0; i <= r - l; ++i)
+//             if (!st[i] && i + l > 1)
+//                 primes[cnt++] = i + l;
+//         if (cnt < 2)
+//             printf("There are no adjacent primes.\n");
+//         else
+//         {
+//             LL minp = 0, maxp = 0;
+//             for (LL i = 0; i + 1 < cnt; ++i)
+//             {
+//                 LL d = primes[i + 1] - primes[i];
+//                 if (d < primes[minp + 1] - primes[minp])
+//                     minp = i;
+//                 if (d > primes[maxp + 1] - primes[maxp])
+//                     maxp = i;
+//             }
+//             printf("%lld,%lld are closest, %lld,%lld are most distant.\n",
+//                    primes[minp], primes[minp + 1],
+//                    primes[maxp], primes[maxp + 1]);
+//         }
+//     }
+//     return 0;
+// }
+
+// 
