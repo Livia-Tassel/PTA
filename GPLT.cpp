@@ -3276,3 +3276,64 @@
 //     cout << "Fibonacci(" << n << ") = " << fibN << endl;
 //     return 0;
 // }
+
+// 整数划分
+// #include <bits/stdc++.h>
+// using namespace std;
+// const int MAXN = 1e6 + 10;
+// int partition_count[MAXN + 1][MAXN + 1];
+// int part(int n, int m)
+// {
+//     if (n == 1 || m == 1)
+//         return 1;
+//     else if (n < m)
+//     {
+//         return part(n, n);
+//     }
+//     else if (n == m)
+//     {
+//         return 1 + part(n, n - 1);
+//     }
+//     else
+//     {
+//         // 划分中有m, 则减去m, 继续划分
+//         // 划分中均小于m, 则m <= m-1, 继续划分
+//         return part(n - m, m) + part(n, m - 1);
+//     }
+// }
+// // DP
+// void part()
+// {
+//     for (int n = 1; n <= MAXN; n++)
+//     {
+//         for (int m = 1; m <= MAXN; m++)
+//         {
+//             if (n == 1 || m == 1)
+//             {
+//                 partition_count[n][m] = 1;
+//             }
+//             else if (n < m)
+//             {
+//                 partition_count[n][m] = partition_count[n][n];
+//             }
+//             else if (n == m)
+//             {
+//                 partition_count[n][m] = 1 + partition_count[n][n - 1];
+//             }
+//             else
+//             {
+//                 partition_count[n][m] = partition_count[n - m][m] + partition_count[n][m - 1];
+//             }
+//         }
+//     }
+// }
+// int main()
+// {
+//     part();
+//     int n, m;
+//     cin >> n >> m;
+//     cout << partition_count[n][m] << endl;
+//     return 0;
+// }
+
+// 
