@@ -3014,7 +3014,6 @@
 //             res = (res * base) % m;
 //         }
 //         base = (base * base) % m;
-//         n >> 1;
 //         n >>= 1;
 //     }
 //     return res;
@@ -3204,4 +3203,76 @@
 //     return 0;
 // }
 
-// 
+// 斐波那契(矩阵快速幂)
+// #include <bits/stdc++.h>
+// using namespace std;
+// const int MAXN = 2; // 矩阵的阶
+// const int MOD = 1e9 + 7;
+// struct Matrix
+// {
+//     long long a[MAXN][MAXN];
+//     Matrix()
+//     {
+//         memset(a, 0, sizeof(a));
+//     }
+//     void init()
+//     {
+//         a[0][0] = a[0][1] = a[1][0] = 1;
+//         a[1][1] = 0;
+//     }
+// };
+// Matrix Multi(Matrix a, Matrix b)
+// {
+//     Matrix res;
+//     for (int i = 0; i < MAXN; i++)
+//     {
+//         for (int j = 0; j < MAXN; j++)
+//         {
+//             for (int k = 0; k < MAXN; k++)
+//             {
+//                 res.a[i][j] = (res.a[i][j] + a.a[i][k] * b.a[k][j]) % MOD;
+//             }
+//         }
+//     }
+//     return res;
+// }
+// Matrix quick_pow(Matrix a, long long n)
+// {
+//     Matrix res;
+//     // 初始化单位矩阵
+//     for (int i = 0; i < MAXN; i++)
+//     {
+//         res.a[i][i] = 1;
+//     }
+//     while (n > 0)
+//     {
+//         if (n & 1)
+//         {
+//             res = Multi(res, a);
+//         }
+//         a = Multi(a, a);
+//         n >>= 1;
+//     }
+//     return res;
+// }
+// // 斐波那契数列
+// long long Fibonacci(int n)
+// {
+//     if (n <= 2)
+//     {
+//         return 1;
+//     }
+//     Matrix x, res;
+//     x.init();
+//     // https://www.cnblogs.com/MMMMMMMW/p/12300262.html
+//     res = quick_pow(x, n - 1);
+//     return res.a[0][0];
+// }
+// int main()
+// {
+//     int n;
+//     cin >> n;
+//     long long fibN = Fibonacci(n);
+//     cout << "Fibonacci(" << n << ") = " << fibN << endl;
+//     return 0;
+// }
