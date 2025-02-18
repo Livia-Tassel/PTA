@@ -3336,4 +3336,252 @@
 //     return 0;
 // }
 
-// 
+// get家族
+// #include <bits/stdc++.h>
+// using namespace std;
+// char str[1002];
+// int main()
+// {
+//     while (gets(str) != NULL)
+//     {
+//         // 字符组末尾换行符
+//         for (int i = 0; str[i] != '\0'; i++)
+//         {
+//             if (str[i] == 'o' && str[i + 1] == 'u' && str[i + 2] == 'r')
+//             {
+//                 // 无需实际换
+//                 cout << "we";
+//                 i += 2;
+//             }
+//             else
+//             {
+//                 cout << str[i];
+//             }
+//         }
+//     }
+//     char a, b, c;
+//     while ((a = getchar()) != EOF)
+//     {
+//         // 单次读取
+//         if (a == 'o')
+//         {
+//             if ((b = getchar()) == 'u')
+//             {
+//                 if ((c = getchar()) == 'r')
+//                 {
+//                     cout << "we";
+//                 }
+//                 else
+//                 {
+//                     cout << "ou" << c;
+//                 }
+//             }
+//             else
+//             {
+//                 cout << "o" << b;
+//             }
+//         }
+//         else
+//         {
+//             cout << a;
+//         }
+//     }
+//     string s;
+//     int pos;
+//     while (getline(cin, s))
+//     {
+//         // 字符串类
+//         while ((pos = s.find("our")) != -1)
+//         {
+//             s.replace(pos, 3, "we");
+//         }
+//         cout << s << endl;
+//     }
+//     return 0;
+// }
+
+// 字典树(STL)
+// #include <bits/stdc++.h>
+// using namespace std;
+// int main()
+// {
+//     char str[10];
+//     map<string, int> mp;
+//     while (gets(str))
+//     {
+//         int len = strlen(str);
+//         // 输入空行
+//         if (!len)
+//         {
+//             break;
+//         }
+//         // 倒序删除得到前缀并统计
+//         for (int i = len; i > 0; i--)
+//         {
+//             str[i] = '\0';
+//             mp[str]++;
+//         }
+//     }
+// }
+
+// 字典树(树)
+// #include <bits/stdc++.h>
+// using namespace std;
+// struct TrieNode
+// {
+//     // 26个字母节点
+//     TrieNode *next[26];
+//     // 以当前字符串为前缀的单词总量
+//     long long num;
+//     TrieNode()
+//     {
+//         for (int i = 0; i < 26; i++)
+//         {
+//             next[i] = NULL;
+//         }
+//         num = 0;
+//     }
+// };
+// TrieNode root;
+// void Insert(char str[])
+// {
+//     TrieNode *p = &root;
+//     for (int i = 0; str[i]; i++)
+//     {
+//         if (!p->next[str[i] - 'a'])
+//         {
+//             p->next[str[i] - 'a'] = new TrieNode;
+//         }
+//         p = p->next[str[i] - 'a'];
+//         p->num++;
+//     }
+// }
+// long long Find(char str[])
+// {
+//     TrieNode *p = &root;
+//     // 查找单词结尾位置
+//     for (int i = 0; str[i]; i++)
+//     {
+//         if (!p->next[str[i] - 'a'])
+//         {
+//             return 0;
+//         }
+//         p = p->next[str[i] - 'a'];
+//     }
+//     return p->num;
+// }
+// int main()
+// {
+//     char str[11];
+//     while (gets(str))
+//     {
+//         if (!strlen(str))
+//         {
+//             break;
+//         }
+//         Insert(str);
+//     }
+//     while (gets(str))
+//     {
+//         cout << Find(str) << endl;
+//     }
+//     return 0;
+// }
+
+// 字典树(组)
+// #include <bits/stdc++.h>
+// using namespace std;
+// long long trie[1000005][26];
+// long long num[1000005];
+// long long pos = 1;
+// void Insert(char str[])
+// {
+//     long long p = 0;
+//     for (int i = 0; str[i]; i++)
+//     {
+//         if (!trie[p][str[i] - 'a'])
+//         {
+//             trie[p][str[i] - 'a'] = pos++;
+//         }
+//         p = trie[p][str[i] - 'a'];
+//         num[p]++;
+//     }
+// }
+// long long Find(char str[])
+// {
+//     long long p = 0;
+//     for (int i = 0; str[i]; i++)
+//     {
+//         if (!trie[p][str[i] - 'a'])
+//         {
+//             return 0;
+//         }
+//         p = trie[p][str[i] - 'a'];
+//     }
+//     return num[p];
+// }
+
+// KMP
+// #include <bits/stdc++.h>
+// using namespace std;
+// const int MAXN = 1e6 + 10;
+// char str[MAXN], pat[MAXN];
+// long long cnt, Next[MAXN];
+// // 统计失配情况下得到j的回溯位置
+// long long GetFail(char *p, long long len)
+// {
+//     Next[0] = 0;
+//     Next[1] = 0;
+//     for (int i = 1; i < len; i++)
+//     {
+//         long long j = Next[i];
+//         while (j && p[j] != p[i])
+//         {
+//             j = Next[j];
+//         }
+//         Next[i + 1] = (p[j] == p[i]) ? j + 1 : 0;
+//     }
+// }
+// long long KMP(char *s, char *p)
+// {
+//     // 非叠剪枝
+//     long long last = -1;
+//     long long slen = strlen(s), plen = strlen(p);
+//     GetFail(p, plen);
+//     long long j = 0;
+//     for (int i = 0; i < slen; i++)
+//     {
+//         while (j && p[j] != s[i])
+//         {
+//             j = Next[j];
+//         }
+//         if (p[j] == s[i])
+//         {
+//             j++;
+//         }
+//         if (j == plen)
+//         {
+//             // 非叠剪枝
+//             if (i - last >= plen)
+//             {
+//                 cnt++;
+//                 last = i;
+//             }
+//         }
+//     }
+// }
+// int main()
+// {
+//     while (scanf("%s", str) != EOF)
+//     {
+//         if (str[0] == '#')
+//         {
+//             break;
+//         }
+//         scanf("%s", pat);
+//         cnt = 0;
+//         KMP(str, pat);
+//         printf("%lld\n", cnt);
+//     }
+//     return 0;
+// }
