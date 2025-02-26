@@ -3489,7 +3489,7 @@
 // }
 
 // 字典树(组)
-// #include <bits/stdc++.h>
+// #include <iostream>
 // using namespace std;
 // long long trie[1000005][26];
 // long long num[1000005];
@@ -3522,7 +3522,9 @@
 // }
 
 // KMP
-// #include <bits/stdc++.h>
+
+// #include <iostream>
+// #include <cstring>
 // using namespace std;
 // const int MAXN = 1e6 + 10;
 // char str[MAXN], pat[MAXN];
@@ -3585,3 +3587,10 @@
 //     }
 //     return 0;
 // }
+
+#include <iostream>
+using namespace std;
+int main()
+{
+    cout << "Hello World!" << endl;
+}
