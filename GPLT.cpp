@@ -3522,7 +3522,6 @@
 // }
 
 // KMP
-
 // #include <iostream>
 // #include <cstring>
 // using namespace std;
@@ -3588,9 +3587,75 @@
 //     return 0;
 // }
 
+// AC自动机
+// #include <iostream>
+// using namespace std;
+// int main()
+// {
+//     ios::sync_with_stdio(false);
+//     cin.tie(nullptr);
+//     cout.tie(nullptr);
+//     return 0;
+// }
+
+// 后缀数组
+// #include <iostream>
+// #include <cstring>
+// using namespace std;
+// // the suffix array contains all possible occurrences of t.
+// // use binary matching to find the suffix whose lexicographical order is closest to that of t.
+// int suffix_tree(string s, string t, int *sa)
+// {
+//     int l = 0, r = s.length();
+//     // 区间中大于两个元素
+//     while (r - l > 1)
+//     {
+//         int mid = (l + r) >> 1;
+//         // 字典序比较
+//         if (s.compare(sa[mid], t.length(), t) < 0)
+//         {
+//             l = mid;
+//         }
+//         else
+//         {
+//             r = mid;
+//         }
+//     }
+//     // 查找成功
+//     if (s.compare(sa[r], t.length(), t) == 0)
+//     {
+//         return sa[r];
+//     }
+//     if (s.compare(sa[l], t.length(), t) == 0)
+//     {
+//         return sa[l];
+//     }
+//     // 查找失败
+//     return -1;
+// }
+// int main()
+// {
+//     ios::sync_with_stdio(false);
+//     cin.tie(nullptr);
+//     cout.tie(nullptr);
+//     string s = "vamamadn", t = "ad";
+//     // 后缀数组（字典序）
+//     int sa[] = {5, 3, 1, 6, 4, 2, 7, 0};
+//     int location = suffix_tree(s, t, sa);
+//     // s[location]:索引为location的字符
+//     // &s[location]:索引为location的字符的地址，location位置开始到字符串末尾的所有字符
+//     cout << location << ":" << &s[location] << endl;
+//     return 0;
+// }
+
+// 倍增法
 #include <iostream>
 using namespace std;
 int main()
 {
-    cout << "Hello World!" << endl;
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+    
+    return 0;
 }
