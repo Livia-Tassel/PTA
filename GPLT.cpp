@@ -3648,14 +3648,153 @@
 //     return 0;
 // }
 
-// 倍增法
-#include <iostream>
-using namespace std;
-int main()
-{
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.tie(nullptr);
-    
-    return 0;
-}
+// 倍增法（模板）
+// #include <iostream>
+// #include <string>
+// using namespace std;
+// const int MAXN = 200005;
+// char s[MAXN]; // 字符
+// int sa[MAXN], rk[MAXN], temp[MAXN + 1];
+// int n, k;
+// bool comp_sa(int i, int j)
+// {
+//     // 高位比较
+//     if (rk[i] != rk[j])
+//     {
+//         return rk[i] < rk[j];
+//     }
+//     else
+//     {
+//         int ri = i + k <= n ? rk[i + k] : -1;
+//         int rj = j + k <= n ? rk[j + k] : -1;
+//         return ri < rj;
+//     }
+// }
+// void calc_sa()
+// {
+//     for (int i = 0; i <= n; i++)
+//     {
+//         rk[i] = s[i];
+//         sa[i] = i;
+//     }
+//     for (k = 1; k <= n; k *= 2)
+//     {
+//         sort(sa, sa + n, comp_sa);
+//         temp[sa[0]] = 0;
+//         for (int i = 0; i < n; i++)
+//         {
+//             temp[sa[i + 1]] = temp[sa[i]] + (comp_sa(sa[i], sa[i + 1]) ? 1 : 0);
+//         }
+//         for (int i = 0; i < n; i++)
+//         {
+//             rk[i] = temp[i];
+//         }
+//     }
+// }
+// int main()
+// {
+//     ios::sync_with_stdio(false);
+//     cin.tie(nullptr);
+//     cout.tie(nullptr);
+//     cin >> s;
+//     n = strlen(s);
+//     calc_sa();
+//     for (int i = 0; i < n; i++)
+//     {
+//         cout << sa[i] << " ";
+//     }
+//     return 0;
+// }
+
+// 最长公共 SubString
+// #include <iostream>
+// #include <string>
+// using namespace std;
+// const int MAXN = 200005;
+// char s[MAXN]; // 字符
+// int sa[MAXN], rk[MAXN], temp[MAXN + 1], height[MAXN];
+// int n, k;
+// bool comp_sa(int i, int j)
+// {
+//     // 高位比较
+//     if (rk[i] != rk[j])
+//     {
+//         return rk[i] < rk[j];
+//     }
+//     else
+//     {
+//         int ri = i + k <= n ? rk[i + k] : -1;
+//         int rj = j + k <= n ? rk[j + k] : -1;
+//         return ri < rj;
+//     }
+// }
+// void calc_sa()
+// {
+//     for (int i = 0; i <= n; i++)
+//     {
+//         rk[i] = s[i];
+//         sa[i] = i;
+//     }
+//     for (k = 1; k <= n; k *= 2)
+//     {
+//         sort(sa, sa + n, comp_sa);
+//         temp[sa[0]] = 0;
+//         for (int i = 0; i < n; i++)
+//         {
+//             temp[sa[i + 1]] = temp[sa[i]] + (comp_sa(sa[i], sa[i + 1]) ? 1 : 0);
+//         }
+//         for (int i = 0; i < n; i++)
+//         {
+//             rk[i] = temp[i];
+//         }
+//     }
+// }
+// void getheight(int n)
+// {
+//     int i, j, m = 0;
+//     for (i = 0; i < n; i++)
+//     {
+//         rk[sa[i]] = i;
+//     }
+//     for (i = 0; i < n; i++)
+//     {
+//         if (m)
+//         {
+//             m--;
+//         }
+//         j = sa[rk[i] - 1];
+//         while (s[i + m] == s[j + m])
+//         {
+//             m++;
+//         }
+//         height[rk[i]] = m;
+//     }
+// }
+// int main()
+// {
+//     int len, ans;
+//     while (scanf("%s", s) != EOF)
+//     {
+//         n = strlen(s);
+//         len = n;
+//         s[n] = '$';
+//         scanf("%s", s + n + 1);
+//         n = strlen(s);
+//         calc_sa();
+//         getheight(n);
+//         // for (int i = 0; i < 13; i++)
+//         // {
+//         //     cout << sa[i] << " " << height[i] << endl;
+//         // }
+//         ans = 0;
+//         for (int i = 1; i < n; i++)
+//         {
+//             if (height[i] > ans && ((sa[i - 1] < len && sa[i] >= len) || (sa[i - 1] >= len && sa[i] < len)))
+//             {
+//                 ans = height[i];
+//             }
+//         }
+//         cout << ans;
+//     }
+//     return 0;
+// }
