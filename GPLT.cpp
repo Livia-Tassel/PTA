@@ -3798,3 +3798,254 @@
 //     }
 //     return 0;
 // }
+
+// 邻接表
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+// const int NUM = 10005;
+// struct edge
+// {
+//     // 编号、邻接点、权值
+//     int index, to, w;
+//     edge(int dex, int t, int w) : index(dex), to(t), w(w) {}
+// };
+// vector<edge> e[NUM];
+// int main()
+// {
+//     int dex, t, w, n, m;
+//     cin >> n >> m;
+//     // 初始化
+//     for (int i = 1; i <= n; i++)
+//     {
+//         e[i].clear();
+//     }
+//     // 存边
+//     for (int i = 1; i <= m; i++)
+//     {
+//         cin >> dex >> t >> w;
+//         e[dex].push_back(edge(dex, t, w));
+//     }
+//     // 遍历
+//     for (int i = 0; i < e[2].size(); i++)
+//     {
+//         cout << e[2][i].index << "->" << e[2][i].to << "权值为：" << e[2][i].w << endl;
+//     }
+//     return 0;
+// }
+
+// 链式向前星
+// #include <iostream>
+// using namespace std;
+// const int NUM = 100005;
+// struct Edge
+// {
+//     int to, next, w;
+// } edge[NUM];
+// int head[NUM]; // 头链表
+// int cnt;
+// void init()
+// {
+//     for (int i = 0; i < NUM; i++)
+//     {
+//         edge[i].next = -1; // 链式末尾
+//         head[i] = -1;      // 无邻接点
+//     }
+//     cnt = 0;
+// }
+// void pushedge(int u, int v, int w)
+// {
+//     edge[cnt].to = v;
+//     edge[cnt].w = w;
+//     edge[cnt].next = head[u];
+//     head[u] = cnt++;
+// }
+// int main()
+// {
+//     int n, m;
+//     cin >> n >> m;
+//     init();
+//     for (int i = 0; i < m; i++)
+//     {
+//         int u, v, w;
+//         cin >> u >> v >> w;
+//         pushedge(u, v, w);
+//     }
+//     // 遍历节点2的所有边
+//     for (int i = head[2]; i != -1; i = edge[i].next)
+//     {
+//         cout << "节点2->节点" << edge[i].to << "权值：" << edge[i].w << endl;
+//     }
+//     return 0;
+// }
+
+// 基于BFS的拓扑排序
+// #include <iostream>
+// using namespace std;
+// const int N = 1001;
+// queue<int> q;
+// // 求解按字典序输出则将队列改为优先队列即可（或自定义比较函数）
+// vector<int> G[N]; // 邻接边
+// vector<int> ans;  // 拓扑序列
+// int InDegree[N];
+// bool BFS_TopoSort(int n)
+// {
+//     for (int i = 1; i <= n; i++)
+//         if (InDegree[i] == 0)
+//             q.push(i); // 将 InDegree 为0的点入队
+//     while (!q.empty())
+//     {
+//         int u = q.front();
+//         q.pop();
+//         ans.push_back(u);
+//         for (int i = 0; i < G[u].size(); i++)
+//         {
+//             int v = G[u][i];
+//             InDegree[v]--;
+//             // 任何时刻队列元素大于1，则拓扑排序不唯一
+//             if (InDegree[v] == 0)
+//                 q.push(v);
+//         }
+//     }
+//     // 拓扑排序成功
+//     if (ans.size() == n)
+//     {
+//         for (int i = 0; i < ans.size(); i++)
+//         {
+//             cout << ans[i] << " ";
+//         }
+//         return true;
+//     }
+//     return false;
+// }
+// int main()
+// {
+//     int n, m;
+//     cin >> n >> m;
+//     for (int i = 0; i < m; i++)
+//     {
+//         int u, v;
+//         cin >> u >> v;
+//         G[u].push_back(v);
+//         InDegree[v]++;
+//     }
+//     BFS_TopoSort(n);
+//     return 0;
+// }
+
+// 基于DFS的拓扑排序
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+// const int N = 1005;
+// int tot;
+// vector<int> G[N], ans(N);  // 邻接边
+// vector<int> visited(N, 0); // 1:访问中 -1:已访问 0:未访问
+// bool DFS_TopoSort(int u)
+// {
+//     // 节点u正在访问
+//     visited[u] = true;
+//     // 遍历u的邻接节点
+//     for (int i = 0; i < G[u].size(); i++)
+//     {
+//         int v = G[u][i];
+//         if (visited[v] == 1)
+//             return false; // 后驱节点先访问，访问失败，存在环
+//         // 后驱节点未访问
+//         if (!visited[v])
+//         {
+//             // 迭代访问v，后驱节点均成功访问完，则成功访问
+//             if (!DFS_TopoSort(v))
+//             {
+//                 return false;
+//             }
+//         }
+//     }
+//     visited[u] = -1;
+//     // 访问成功，逆序存储，深层优先
+//     ans[tot++] = u;
+//     return true;
+// }
+// int main()
+// {
+//     int n, m, u, v;
+//     cin >> n >> m;
+//     while (m--)
+//     {
+//         cin >> u >> v;
+//         G[u].push_back(v);
+//     }
+//     // 遍历所有可能节点
+//     for (int i = 1; i <= n; i++)
+//         if (!visited[i])
+//             DFS_TopoSort(i);
+//     for (int i = tot - 1; i >= 0; i--)
+//         cout << ans[i] << " ";
+//     return 0;
+// }
+
+// NeckLace（欧拉环）
+// #include <iostream>
+// #include <cstring>
+// #include <vector>
+// using namespace std;
+// const int N = 55;
+// long long e[N][N], degree[N];
+// // 节点u开始DFS
+// void OL(int u, int n)
+// {
+//     int v;
+//     for (v = 1; v <= n; v++)
+//     {
+//         if (e[u][v] > 0)
+//         {
+//             e[u][v]--;
+//             e[v][u]--;
+//             OL(v, n);
+//             // 迭代访问完毕后，OutPut （v，u）
+//             // 特别地，3→1时，1已经迭代返回，即 OutPut（1，3）
+//             cout << v << " " << u << endl;
+//         }
+//     }
+// }
+// int main()
+// {
+//     int i, u, v, n, m;
+//     bool flag = true;
+//     memset(degree, 0, sizeof(degree));
+//     memset(e, 0, sizeof(e));
+//     cin >> n >> m;
+//     for (i = 0; i < m; i++)
+//     {
+//         cin >> u >> v;
+//         e[u][v]++;
+//         e[v][u]++;
+//         degree[u]++;
+//         degree[v]++;
+//     }
+//     for (i = 1; i <= n; i++)
+//     {
+//         if (degree[i] % 2 == 1)
+//         {
+//             flag = false;
+//             break;
+//         }
+//     }
+//     if (!flag)
+//         printf("Ah Some thing go wrong!\n");
+//     else
+//     {
+//         for (i = 1; i < N; i++)
+//         {
+//             // 欧拉环，迭代
+//             if (degree[i])
+//             {
+//                 OL(i, n);
+//             }
+//         }
+//     }
+//     cout << endl;
+//     return 0;
+// }
+
+//
