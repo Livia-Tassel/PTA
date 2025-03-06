@@ -4048,4 +4048,79 @@
 //     return 0;
 // }
 
-//
+// 割点
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+// const int N = 109;
+// // 回联、访问、时间戳（记录迭代顺序）
+// int low[N], num[N], dfn;
+// // 割点
+// bool iscut[N];
+// vector<int> G[N];
+// // fa为u父节点
+// void DFS(int u, int fa)
+// {
+//     dfn++;
+//     num[u] = dfn;
+//     low[u] = dfn;
+//     long long child = 0;
+//     for (int i = 0; i < G[u].size(); i++)
+//     {
+//         int v = G[u][i];
+//         // num[v]为0，即节点v未被访问
+//         if (!num[v])
+//         {
+//             // u子节点++
+//             child++;
+//             DFS(v, u);
+//             low[u] = min(low[v], low[u]);
+//             // low[v] >= num[u]，则u为割点
+//             // low[v] > num[u]，则u->v为割边
+//             if (low[v] >= num[u] && u != 1)
+//             {
+//                 iscut[u] = true;
+//             }
+//         }
+//         // 不Call Back父节点，Call Back祖先节点
+//         else if (num[v] < num[u] && v != fa)
+//         {
+//             low[u] = min(low[u], num[v]);
+//         }
+//     }
+//     // 根节点子树大于2，割点
+//     if (u == 1 && child >= 2)
+//     {
+//         iscut[1] = true;
+//     }
+// }
+// int main()
+// {
+//     int ans, n, m;
+//     cin >> n >> m;
+//     for (int i = 0; i < m; i++)
+//     {
+//         int u, v;
+//         cin >> u >> v;
+//         G[u].push_back(v);
+//     }
+//     memset(low, 0, sizeof(low));
+//     memset(num, 0, sizeof(num));
+//     dfn = 0;
+//     memset(iscut, false, sizeof(iscut));
+//     ans = 0;
+//     // Start Point: 1
+//     DFS(1, -1);
+//     for (int i = 1; i <= n; i++)
+//     {
+//         ans += iscut[i];
+//     }
+//     cout << ans;
+//     // for (int i = 1; i <= n; i++)
+//     // {
+//     //     cout << low[i] << " " << num[i] << endl;
+//     // }
+//     return 0;
+// }
+
+// 
