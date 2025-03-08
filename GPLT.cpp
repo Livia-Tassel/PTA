@@ -4075,7 +4075,7 @@
 //             child++;
 //             DFS(v, u);
 //             low[u] = min(low[v], low[u]);
-//             // low[v] >= num[u]，则u为割点
+//             // low[v] >= num[u] && u != 1，则u为割点
 //             // low[v] > num[u]，则u->v为割边
 //             if (low[v] >= num[u] && u != 1)
 //             {
@@ -4102,7 +4102,9 @@
 //     {
 //         int u, v;
 //         cin >> u >> v;
+//         // 无向
 //         G[u].push_back(v);
+//         G[v].push_back(u);
 //     }
 //     memset(low, 0, sizeof(low));
 //     memset(num, 0, sizeof(num));
@@ -4115,11 +4117,356 @@
 //     {
 //         ans += iscut[i];
 //     }
-//     cout << ans;
+//     cout << ans << endl;
 //     // for (int i = 1; i <= n; i++)
 //     // {
 //     //     cout << low[i] << " " << num[i] << endl;
 //     // }
+//     return 0;
+// }
+
+// 边双连通分量
+// #include<iostream>
+// using namespace std;
+// int main()
+// {
+
+//     return 0;
+// }
+
+// Floyd-Warshall（中转点）
+// #include <iostream>
+// using namespace std;
+// const int INF = 10E7;
+// const int N = 105;
+// int G[N][N], n, m;
+// // 多源最短
+// void Floyd()
+// {
+//     // 启始点
+//     int s = 1;
+//     // 中转点 k
+//     for (int k = 1; k <= n; k++)
+//     {
+//         for (int i = 1; i <= n; i++)
+//         {
+//             // 由于Floyd的涟漪效应，单中转点只需对其邻居缩放即可，局部最优将放大至全局最优
+//             if (G[i][k] != INF)
+//             {
+//                 for (int j = 1; j <= n; j++)
+//                 {
+//                     if (G[i][j] > G[i][k] + G[k][j])
+//                     {
+//                         G[i][j] = G[i][k] + G[k][j];
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     cout << G[s][n] << endl;
+// }
+// int main()
+// {
+//     ios::sync_with_stdio(false); // 提高 cin/cout 性能
+//     cin.tie(NULL);               // 解除 cin 和 cout 的绑定
+//     cout.tie(NULL);
+//     cin >> n >> m;
+//     if (n == 0 && m == 0)
+//     {
+//         return 0;
+//     }
+//     // 初始化
+//     for (int i = 1; i <= n; i++)
+//     {
+//         for (int j = 1; j <= n; j++)
+//         {
+//             G[i][j] = INF;
+//         }
+//     }
+//     while (m--)
+//     {
+//         int u, v, w;
+//         cin >> u >> v >> w;
+//         G[u][v] = G[v][u] = w;
+//     }
+//     Floyd();
+//     // G[i][i]：中转节点→原地 Min_Distance，其小于0即有负圈
+//     // for (int i = 1; i <= n; i++)
+//     // {
+//     //     if (G[i][i] < 0)
+//     //     {
+//     //         cout << "Negative Cycle!";
+//     //     }
+//     // }
+//     return 0;
+// }
+
+// Bellman-Ford（松弛边）
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+// const int INF = 1E6;
+// const int N = 105;
+// struct edge
+// {
+//     int u, v, w;
+// } e[1005];
+// int n, m, cnt;
+// vector<int> pre(N); // 记录前驱
+// void Print_Path(int s, int t)
+// {
+//     // 起点s
+//     if (s == t)
+//     {
+//         cout << s << " ";
+//         return;
+//     }
+//     // 打印前驱节点
+//     Print_Path(s, pre[t]);
+//     // 打印现节点
+//     cout << t << " ";
+// }
+// void Bellman()
+// {
+//     int s = 1, k = 0, update = 1;
+//     vector<int> dis(N);
+//     for (int i = 1; i <= n; i++)
+//     {
+//         dis[i] = INF;
+//     }
+//     dis[s] = 0;
+//     // 松弛→无update
+//     while (update)
+//     {
+//         k++;
+//         update = 0;
+//         if (k > n)
+//         {
+//             cout << "Negative Cycle!" << endl;
+//             return;
+//         }
+//         // 松弛所有边
+//         for (int i = 0; i < cnt; i++)
+//         {
+//             int x = e[i].u, y = e[i].v;
+//             if (dis[y] > dis[x] + e[i].w)
+//             {
+//                 update = 1;
+//                 dis[y] = dis[x] + e[i].w;
+//                 pre[y] = x;
+//             }
+//         }
+//     }
+//     cout << dis[n] << endl;
+//     Print_Path(s, n);
+// }
+// int main()
+// {
+//     cin >> n >> m;
+//     if (n == 0 && m == 0)
+//     {
+//         return 0;
+//     }
+//     cnt = 0;
+//     while (m--)
+//     {
+//         int u, v, w;
+//         cin >> u >> v >> w;
+//         // 无向
+//         e[cnt].u = u;
+//         e[cnt].v = v;
+//         e[cnt].w = w;
+//         cnt++;
+//         // e[cnt].u = v;
+//         // e[cnt].v = u;
+//         // e[cnt].w = w;
+//         // cnt++;
+//     }
+//     Bellman();
+//     return 0;
+// }
+
+// SPFA
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+// const int INF = 1E6;
+// const int N = 105;
+// struct edge
+// {
+//     int from, to, w;
+//     edge(int f, int t, int w) : from(f), to(t), w(w) {};
+// };
+// vector<edge> e[N];
+// int n, m, pre[N];
+// void Print_Path(int s, int t)
+// {
+//     if (s == t)
+//     {
+//         cout << s << " ";
+//         return;
+//     }
+//     Print_Path(s, pre[t]);
+//     cout << t << " ";
+// }
+// int SPFA(int s)
+// {
+//     vector<int> dis(N + 1, INF), visited(N + 1, 0), neg(N + 1, 0);
+//     neg[s] = 1;
+//     dis[s] = 0;
+//     queue<int> Q;
+//     Q.push(s);
+//     visited[s] = 1; // 入队标记
+//     while (!Q.empty())
+//     {
+//         int u = Q.front();
+//         Q.pop();
+//         visited[u] = 0; // 队头OUT
+//         for (int i = 0; i < e[u].size(); i++)
+//         {
+//             int v = e[u][i].to;
+//             if (dis[v] > dis[u] + e[u][i].w)
+//             {
+//                 dis[v] = dis[u] + e[u][i].w;
+//                 pre[v] = u;
+//                 if (!visited[v])
+//                 {
+//                     Q.push(v);
+//                     visited[v] = 1;
+//                     neg[v]++;
+//                     // n+1次入队，负圈
+//                     if (neg[v] > n)
+//                     {
+//                         cout << "Negative Cycle!" << endl;
+//                         return 1;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     cout << dis[n] << endl;
+//     Print_Path(s, n);
+//     return 0;
+// }
+// int main()
+// {
+//     cin >> n >> m;
+//     if (n == 0 && m == 0)
+//     {
+//         return 0;
+//     }
+//     for (int i = 1; i <= n; i++)
+//     {
+//         e[i].clear();
+//     }
+//     while (m--)
+//     {
+//         int u, v, w;
+//         cin >> u >> v >> w;
+//         e[u].push_back(edge(u, v, w));
+//         // e[v].push_back(edge(v, u, w));
+//     }
+//     SPFA(1);
+//     return 0;
+// }
+
+// SPFA（模板）
+// #include <iostream>
+// #include <vector>
+// #include <queue>
+// using namespace std;
+// const int INF = 1E9;
+// const int N = 1000005;
+// struct Edge
+// {
+//     int to, next, w;
+// } edge[N];
+// int n, m, cnt;
+// vector<int> head(N), dis(N), vis(N), neg(N, 0), pre(N);
+// void Print_Path(int s, int t)
+// {
+//     if (s == t)
+//     {
+//         cout << s << " ";
+//         return;
+//     }
+//     Print_Path(s, pre[t]);
+//     cout << t << " ";
+// }
+// void init()
+// {
+//     for (int i = 0; i < N; i++)
+//     {
+//         head[i] = -1;
+//         edge[i].next = -1;
+//     }
+//     cnt = 0;
+// }
+// void pushedge(int u, int v, int w)
+// {
+//     edge[cnt].to = v;
+//     edge[cnt].w = w;
+//     edge[cnt].next = head[u];
+//     head[u] = cnt++;
+// }
+// int SPFA(int s)
+// {
+//     neg[s] = 1;
+//     for (int i = 1; i <= n; i++)
+//     {
+//         dis[i] = INF;
+//         vis[i] = 0;
+//     }
+//     dis[s] = 0;
+//     queue<int> Q;
+//     Q.push(s);
+//     vis[s] = 1;
+//     while (!Q.empty())
+//     {
+//         int u = Q.front();
+//         Q.pop();
+//         vis[u] = 0;
+//         for (int i = head[u]; i != -1; i = edge[i].next)
+//         {
+//             int v = edge[i].to;
+//             if (dis[v] > dis[u] + edge[i].w)
+//             {
+//                 dis[v] = dis[u] + edge[i].w;
+//                 pre[v] = u;
+//                 if (!vis[v])
+//                 {
+//                     Q.push(v);
+//                     vis[v] = 1;
+//                     neg[v]++;
+//                     if (neg[v] > n)
+//                     {
+//                         cout << "Negative Cycle!" << endl;
+//                         return 1;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     cout << dis[n] << endl;
+//     Print_Path(s, n);
+//     return 0;
+// }
+// int main()
+// {
+//     cin >> n >> m;
+//     if (n == 0 && m == 0)
+//     {
+//         return 0;
+//     }
+//     init();
+//     while (m--)
+//     {
+//         int u, v, w;
+//         cin >> u >> v >> w;
+//         pushedge(u, v, w);
+//         // pushedge(v, u, w);
+//     }
+//     SPFA(1);
 //     return 0;
 // }
 
