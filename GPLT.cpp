@@ -4126,11 +4126,77 @@
 // }
 
 // 边双连通分量
-// #include<iostream>
+// #include <iostream>
+// #include <iostream>
+// #include <cstring>
 // using namespace std;
+// const int N = 1005;
+// int n, m, low[N], dfn;
+// vector<int> G[N];
+// void DFS(int u, int fa)
+// {
+//     low[u] = ++dfn;
+//     for (int i = 0; i < G[u].size(); i++)
+//     {
+//         int v = G[u][i];
+//         if (v == fa)
+//         {
+//             continue;
+//         }
+//         if (!low[v])
+//         {
+//             DFS(v, u);
+//         }
+//         // num[]记录初始访问顺序，求割点时起作为，其对求low[]无太大意义
+//         low[u] = min(low[u], low[v]);
+//     }
+// }
+// // 缩点
+// int Tarjan()
+// {
+//     int degree[N], res = 0;
+//     memset(degree, 0, sizeof(degree));
+//     // 缩点同时统计 degree
+//     for (int i = 1; i <= n; i++)
+//     {
+//         for (int j = 0; j < G[i].size(); j++)
+//         {
+//             if (low[i] != low[G[i][j]])
+//             {
+//                 degree[low[i]]++;
+//             }
+//         }
+//     }
+//     // 统计degree为1的节点
+//     for (int i = 1; i <= n; i++)
+//     {
+//         if (degree[i] == 1)
+//         {
+//             res++;
+//         }
+//     }
+//     return res;
+// }
+
 // int main()
 // {
-
+//     cin >> n >> m;
+//     memset(low, 0, sizeof(low));
+//     for (int i = 0; i <= n; i++)
+//     {
+//         G[i].clear();
+//     }
+//     for (int i = 0; i < m; i++)
+//     {
+//         int u, v;
+//         cin >> u >> v;
+//         G[u].push_back(v);
+//         // G[v].push_back[u];
+//     }
+//     dfn = 0;
+//     DFS(1, -1);
+//     int ans = Tarjan();
+//     cout << (ans + 1) / 2 << endl;
 //     return 0;
 // }
 
@@ -4470,4 +4536,178 @@
 //     return 0;
 // }
 
-// 
+// Dijkstra（负边失效）
+// #include <iostream>
+// using namespace std;
+// const int INF = 1E6;
+// const int N = 1005;
+// struct edge
+// {
+//     int from, to, w;
+//     edge(int f, int t, int w) : from(f), to(t), w(w) {};
+// };
+// // 存储图
+// vector<edge> e[N];
+// struct node
+// {
+//     int id, dis;
+//     node(int i, int d) : id(i), dis(d) {};
+//     // 升序
+//     bool operator<(const node &n) const
+//     {
+//         return dis > n.dis;
+//     }
+// };
+// int n, m, pre[N];
+// void Print_Path(int s, int t)
+// {
+//     if (s == t)
+//     {
+//         cout << s << " ";
+//         return;
+//     }
+//     Print_Path(s, pre[t]);
+//     cout << t << " ";
+// }
+// void Dijkstra()
+// {
+//     int s = 1;
+//     vector<int> dis(N + 1, INF);
+//     vector<bool> vis(N + 1, false);
+//     dis[s] = 0;
+//     // 最近节点队列
+//     priority_queue<node> Q;
+//     Q.push(node(s, dis[s]));
+//     while (!Q.empty())
+//     {
+//         node t = Q.top();
+//         Q.pop();
+//         // t.id已绑定，舍去
+//         if (vis[t.id])
+//         {
+//             continue;
+//         }
+//         vis[t.id] = true;
+//         for (int i = 0; i < e[t.id].size(); i++)
+//         {
+//             edge tv = e[t.id][i];
+//             int v = tv.to;
+//             // cout << "父节点：" << t.id << "子节点：" << v << endl;
+//             // 节点v已绑定，舍去（所有节点仅出入队一次即可）
+//             if (vis[v])
+//             {
+//                 continue;
+//             }
+//             // 出队时，t.dis记录最短距离
+//             if (dis[v] > t.dis + tv.w)
+//             {
+//                 dis[v] = t.dis + tv.w;
+//                 Q.push(node(v, dis[v]));
+//                 pre[v] = t.id;
+//             }
+//         }
+//     }
+//     // for (int i = 1; i <= n; i++)
+//     // {
+//     //     cout << "dis[" << i << "]=" << dis[i] << " ";
+//     // }
+//     // cout << endl;
+//     Print_Path(s, n);
+// }
+// int main()
+// {
+//     cin >> n >> m;
+//     if (n == 0 && m == 0)
+//     {
+//         return 0;
+//     }
+//     for (int i = 1; i <= n; i++)
+//     {
+//         e[i].clear();
+//     }
+//     while (m--)
+//     {
+//         int u, v, w;
+//         cin >> u >> v >> w;
+//         e[u].push_back(edge(u, v, w));
+//         e[v].push_back(edge(v, u, w));
+//     }
+//     Dijkstra();
+
+//     return 0;
+// }
+
+// Prim（点贪心）
+
+// Kruskal（边贪心）
+// #include <iostream>
+// using namespace std;
+// const int N = 103;
+// int n, m;
+// // 并查集
+// int S[N];
+// struct Edge
+// {
+//     int u, v, w;
+// } edge[N * N];
+// // 升序
+// bool compare(const Edge &a, const Edge &b)
+// {
+//     return a.w < b.w;
+// }
+// int froot(int u)
+// {
+//     // 父节点等于自身否，等于则为根节点，否则迭代
+//     return S[u] == u ? u : froot(S[u]);
+// }
+// // 压缩路径
+// int frootpro(int x)
+// {
+//     if (S[x] != x)
+//     {
+//         S[x] = frootpro(S[x]);
+//     }
+//     return S[x];
+// }
+// void init()
+// {
+//     for (int i = 1; i <= n; i++)
+//     {
+//         S[i] = i;
+//     }
+// }
+// int Kruskal()
+// {
+//     int ans = 0;
+//     init();
+//     sort(edge + 1, edge + m + 1, compare);
+//     for (int i = 1; i <= m; i++)
+//     {
+//         int u = edge[i].u;
+//         int v = edge[i].v;
+//         if (frootpro(u) != frootpro(v))
+//         {
+//             S[frootpro(v)] = u;
+//             ans += edge[i].w;
+//         }
+//     }
+//     return ans;
+// }
+// int main()
+// {
+//     cin >> n;
+//     m = n * (n - 1) / 2;
+//     for (int i = 1; i <= m; i++)
+//     {
+//         int u, v, w;
+//         cin >> u >> v >> w;
+//         edge[i].u = u;
+//         edge[i].v = v;
+//         edge[i].w = w;
+//     }
+//     int ans = Kruskal();
+//     cout << "最短距离: " << ans;
+//     return 0;
+// }
+
+//
