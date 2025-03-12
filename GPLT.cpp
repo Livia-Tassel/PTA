@@ -4710,4 +4710,269 @@
 //     return 0;
 // }
 
+// 家庭房产（未完待续）
+// #include <iostream>
+// #include <set>
+// #include <iomanip>
+// using namespace std;
+// const int MAXN = 10001;
+// int family[MAXN], vis[MAXN] = {};
+// struct Clan
+// {
+//     int faid;
+//     set<int> people;
+//     double house, area;
+//     Clan(int f = -1, double h = 0, double a = 0) : faid(f), house(h), area(a) {};
+// } clan[MAXN];
+// void init()
+// {
+//     for (int i = 0; i < MAXN; i++)
+//     {
+//         family[i] = i;
+//     }
+// }
+// int froot(int x)
+// {
+//     if (family[x] != x)
+//     {
+//         family[x] = froot(family[x]);
+//     }
+//     return family[x];
+// }
+// void set_union(int u, int v)
+// {
+//     int fau = froot(u);
+//     int fav = froot(v);
+//     if (fau != fav)
+//     {
+//         family[fav] = fau;
+//     }
+// }
+// int main()
+// {
+//     int n, id, fa, ma, k, cid, house, area;
+//     cin >> n;
+//     init();
+//     for (int i = 0; i < n; i++)
+//     {
+//         cin >> id >> fa >> ma >> k;
+//         // 父母健在
+//         if (fa != -1 && ma != -1)
+//         {
+//             // 一家之长
+//             if (family[fa] == fa)
+//             {
+//                 // 未创立家族
+//                 if (!vis[fa])
+//                 {
+//                     clan[fa].faid = fa;
+//                     clan[fa].people.insert(id);
+//                     clan[fa].people.insert(ma);
+//                     clan[fa].people.insert(fa);
+//                     vis[fa] = 1;
+//                 }
+//                 else
+//                 {
+//                     clan[fa].people.insert(id);
+//                     clan[fa].people.insert(ma);
+//                     clan[fa].people.insert(fa);
+//                 }
+//                 set_union(fa, id);
+//                 set_union(fa, ma);
+//                 for (int i = 0; i < k; i++)
+//                 {
+//                     cin >> cid;
+//                     set_union(fa, cid);
+//                     clan[fa].people.insert(cid);
+//                 }
+//                 cin >> house >> area;
+//                 clan[fa].area += area;
+//                 clan[fa].house += house;
+//             }
+//             else
+//             {
+//                 // 祖父（祖父必定创建家族）
+//                 int ffa = froot(fa);
+//                 // 父亲未创立家族
+//                 if (!vis[fa])
+//                 {
+//                     clan[ffa].people.insert(id);
+//                     clan[ffa].people.insert(ma);
+//                     clan[ffa].people.insert(fa);
+//                 }
+//                 else
+//                 {
+//                     // 家族扩大
+//                     clan[ffa].people.insert(clan[fa].people.begin(), clan[fa].people.end());
+//                     clan[ffa].area += clan[fa].area;
+//                     clan[ffa].house += clan[fa].house;
+//                     // 原家族解散
+//                     vis[fa] = 0;
+//                 }
+//                 set_union(ffa, id);
+//                 set_union(ffa, ma);
+//                 for (int i = 0; i < k; i++)
+//                 {
+//                     cin >> cid;
+//                     set_union(ffa, cid);
+//                     clan[ffa].people.insert(cid);
+//                 }
+//                 cin >> house >> area;
+//                 clan[ffa].area += area;
+//                 clan[ffa].house += house;
+//             }
+//         }
+//         // 父健母亡
+//         else if (fa != -1 && ma == -1)
+//         {
+//             // 一家之长
+//             if (family[fa] == fa)
+//             {
+//                 // 未创立家族
+//                 if (!vis[fa])
+//                 {
+//                     clan[fa].faid = fa;
+//                     clan[fa].people.insert(id);
+//                     // clan[fa].people.insert(ma);
+//                     clan[fa].people.insert(fa);
+//                     vis[fa] = 1;
+//                 }
+//                 else
+//                 {
+//                     clan[fa].people.insert(id);
+//                     // clan[fa].people.insert(ma);
+//                     clan[fa].people.insert(fa);
+//                 }
+//                 set_union(fa, id);
+//                 for (int i = 0; i < k; i++)
+//                 {
+//                     cin >> cid;
+//                     set_union(fa, cid);
+//                     clan[fa].people.insert(cid);
+//                 }
+//                 cin >> house >> area;
+//                 clan[fa].area += area;
+//                 clan[fa].house += house;
+//             }
+//             else
+//             {
+//                 // 祖父（祖父必定创建家族）
+//                 int ffa = froot(fa);
+//                 // 父亲未创立家族
+//                 if (!vis[fa])
+//                 {
+//                     clan[ffa].people.insert(id);
+//                     // clan[ffa].people.insert(ma);
+//                     clan[ffa].people.insert(fa);
+//                 }
+//                 else
+//                 {
+//                     // 家族扩大
+//                     clan[ffa].people.insert(clan[fa].people.begin(), clan[fa].people.end());
+//                     clan[ffa].area += clan[fa].area;
+//                     clan[ffa].house += clan[fa].house;
+//                     vis[fa] = 0;
+//                 }
+//                 set_union(ffa, id);
+//                 // family[ma] = ffa;
+//                 for (int i = 0; i < k; i++)
+//                 {
+//                     cin >> cid;
+//                     set_union(ffa, cid);
+//                     clan[ffa].people.insert(cid);
+//                 }
+//                 cin >> house >> area;
+//                 clan[ffa].area += area;
+//                 clan[ffa].house += house;
+//             }
+//         }
+//         // 父亡母健
+//         if (fa == -1 && ma != -1)
+//         {
+//             // 一家之母
+//             if (family[ma] == ma)
+//             {
+//                 // 未创立家族
+//                 if (!vis[ma])
+//                 {
+//                     clan[ma].faid = ma;
+//                     clan[ma].people.insert(id);
+//                     clan[ma].people.insert(ma);
+//                     vis[ma] = 1;
+//                 }
+//                 else
+//                 {
+//                     clan[ma].people.insert(id);
+//                     clan[ma].people.insert(ma);
+//                 }
+//                 set_union(ma, id);
+//                 for (int i = 0; i < k; i++)
+//                 {
+//                     cin >> cid;
+//                     set_union(ma, cid);
+//                     clan[ma].people.insert(cid);
+//                 }
+//                 cin >> house >> area;
+//                 clan[ma].area += area;
+//                 clan[ma].house += house;
+//             }
+//             else
+//             {
+//                 int fma = froot(ma);
+//                 // 母亲未创立家族
+//                 if (!vis[ma])
+//                 {
+//                     clan[fma].people.insert(id);
+//                     clan[fma].people.insert(ma);
+//                 }
+//                 else
+//                 {
+//                     // 家族扩大
+//                     clan[fma].people.insert(clan[ma].people.begin(), clan[ma].people.end());
+//                     clan[fma].area += clan[ma].area;
+//                     clan[fma].house += clan[ma].house;
+//                     vis[ma] = 0;
+//                 }
+//                 set_union(fma, id);
+//                 for (int i = 0; i < k; i++)
+//                 {
+//                     cin >> cid;
+//                     set_union(fma, cid);
+//                     clan[fma].people.insert(cid);
+//                 }
+//                 cin >> house >> area;
+//                 clan[fma].area += area;
+//                 clan[fma].house += house;
+//             }
+//         }
+//         // 父母双亡（自成一派）
+//         else
+//         {
+//             if (!vis[id])
+//             {
+//                 clan[id].faid = id;
+//                 for (int i = 0; i < k; i++)
+//                 {
+//                     cin >> cid;
+//                     clan[id].people.insert(cid);
+//                 }
+//                 cin >> house >> area;
+//                 clan[id].area += area;
+//                 clan[id].house += house;
+//                 vis[id] = 1;
+//             }
+//         }
+//     }
+//     for (int i = 0; i < MAXN; i++)
+//     {
+//         if (vis[i])
+//         {
+//             double num = clan[i].people.size();
+//             cout
+//                 << *(clan[i].people.begin()) << " " << num << " " << fixed << setprecision(3) << (clan[i].house * 1.0) / num << " " << (clan[i].area * 1.0) / num << endl;
+//         }
+//     }
+//     return 0;
+// }
+
 //
