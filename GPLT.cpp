@@ -5034,4 +5034,230 @@
 //     return 0;
 // }
 
+// 帅炸了
+// #include <iostream>
+// #include <vector>
+// #include <set>
+// using namespace std;
+// const int MAXN = 1005;
+// vector<int> S(MAXN), ans;
+// vector<bool> vis(MAXN, false);
+// set<int> psearch;
+// vector<bool> alsearch(MAXN, false);
+// void init()
+// {
+//     for (int i = 0; i < MAXN; i++)
+//     {
+//         S[i] = i;
+//     }
+// }
+// int froot(int x)
+// {
+//     if (S[x] != x)
+//     {
+//         S[x] = froot(S[x]);
+//     }
+//     return S[x];
+// }
+// void set_union(int x, int y)
+// {
+//     int fx = froot(x);
+//     int fy = froot(y);
+//     if (fx != fy)
+//     {
+//         S[fx] = fy;
+//     }
+// }
+// int main()
+// {
+//     int N;
+//     cin >> N;
+//     while (N--)
+//     {
+//         int k, f;
+//         cin >> k;
+//         if (k == 1)
+//         {
+//             cin >> f;
+//             continue;
+//         }
+//         for (int i = 0; i < k; i++)
+//         {
+//             cin >> f;
+//             vis[f] = true;
+//         }
+//     }
+//     int M, flag = 1;
+//     cin >> M;
+//     for (int i = 0; i < M; i++)
+//     {
+//         int p;
+//         cin >> p;
+//         if (alsearch[p])
+//         {
+//             continue;
+//         }
+//         if (!vis[p])
+//         {
+//             ans.push_back(p);
+//             flag = 0;
+//         }
+//         alsearch[p] = true;
+//     }
+//     if (flag)
+//     {
+//         cout << "No one is handsome" << endl;
+//     }
+//     else
+//     {
+//         for (int i = 0; i < ans.size(); i++)
+//         {
+//             cout << ans[i];
+//             if (i != ans.size() - 1)
+//             {
+//                 cout << " ";
+//             }
+//         }
+//     }
+//     return 0;
+// }
+
+// 抢红包
+// #include <iostream>
+// #include <vector>
+// #include <iomanip>
+// using namespace std;
+// const int MAXN = 100001;
+// struct people
+// {
+//     int id, num;
+//     double mon;
+//     people(int i = -1, double m = 0, int n = 0) : id(i), mon(m), num(n) {};
+// };
+// vector<people> p(MAXN);
+// bool compare(const people &a, const people &b)
+// {
+//     if (a.mon != b.mon)
+//     {
+//         return a.mon > b.mon;
+//     }
+//     else if (a.num != b.num)
+//     {
+//         return a.num > b.num;
+//     }
+//     else
+//     {
+//         return a.id < b.id;
+//     }
+// }
+// int main()
+// {
+//     int N;
+//     cin >> N;
+//     for (int i = 1; i <= N; i++)
+//     {
+//         p[i].id = i;
+//     }
+//     for (int i = 1; i <= N; i++)
+//     {
+//         int k, n;
+//         double np, sum = 0;
+//         cin >> k;
+//         for (int j = 0; j < k; j++)
+//         {
+//             cin >> n >> np;
+//             p[n].num++;
+//             if (n != i)
+//             {
+//                 p[n].mon += np;
+//                 sum += np;
+//             }
+//         }
+//         p[i].mon -= sum;
+//     }
+//     sort(p.begin() + 1, p.begin() + N + 1, compare);
+//     for (int i = 1; i <= N; i++)
+//     {
+//         cout << p[i].id << fixed << setprecision(2) << " " << p[i].mon / 100.0 << endl;
+//     }
+//     return 0;
+// }
+
 //
+// #include <iostream>
+// #include <vector>
+// #include <set>
+// using namespace std;
+// const int MAXN = 1005;
+// vector<int> S(MAXN);
+// long long rel[MAXN][MAXN];
+// void init()
+// {
+//     for (int i = 0; i < MAXN; i++)
+//     {
+//         S[i] = i;
+//     }
+// }
+// int froot(int x)
+// {
+//     if (S[x] != x)
+//     {
+//         S[x] = froot(S[x]);
+//     }
+//     return S[x];
+// }
+// void set_union(int x, int y)
+// {
+//     int fx = froot(x);
+//     int fy = froot(y);
+//     if (fx != fy)
+//     {
+//         S[fx] = fy;
+//     }
+// }
+// int main()
+// {
+//     int N;
+//     cin >> N;
+//     int M, K;
+//     cin >> M >> K;
+//     init();
+//     while (M--)
+//     {
+//         int a, b, r;
+//         cin >> a >> b >> r;
+//         if (r == 1)
+//         {
+//             set_union(a, b);
+//         }
+//         else
+//         {
+//             rel[a][b] = -1;
+//             rel[b][a] = -1;
+//         }
+//     }
+//     while (K--)
+//     {
+//         int a, b;
+//         cin >> a >> b;
+//         if (froot(a) == froot(b) && rel[a][b] != -1)
+//         {
+//             cout << "No problem" << endl;
+//         }
+//         else if (froot(a) == froot(b) && rel[a][b] == -1)
+//         {
+//             cout << "OK but..." << endl;
+//         }
+//         else if (froot(a) != froot(b) && rel[a][b] != -1)
+//         {
+//             cout << "OK" << endl;
+//         }
+//         else
+//         {
+//             cout << "No way" << endl;
+//         }
+//     }
+//     return 0;
+// }
+
+// 
