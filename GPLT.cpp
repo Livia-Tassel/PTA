@@ -5183,7 +5183,7 @@
 //     return 0;
 // }
 
-//
+// 吃席
 // #include <iostream>
 // #include <vector>
 // #include <set>
@@ -5260,4 +5260,272 @@
 //     return 0;
 // }
 
-// 
+// 租房
+// #include <iostream>
+// #include <set>
+// #include <string>
+// using namespace std;
+// int main()
+// {
+//     string phone;
+//     cin >> phone;
+//     set<int, greater<int>> sarr;
+//     for (int i = 0; i < 11; i++)
+//     {
+//         sarr.insert(phone[i] - '0');
+//     }
+//     vector<int> arr, ans;
+//     while (!sarr.empty())
+//     {
+//         long long top = *sarr.begin();
+//         arr.push_back(top);
+//         sarr.erase(top);
+//     }
+//     for (int i = 0; i < 11; i++)
+//     {
+//         long long num = phone[i] - '0';
+//         for (int i = 0; i < arr.size(); i++)
+//         {
+//             if (num == arr[i])
+//             {
+//                 ans.push_back(i);
+//             }
+//         }
+//     }
+//     cout << "int[] arr = new int[]{";
+//     for (int i = 0; i < arr.size(); i++)
+//     {
+//         cout << arr[i];
+//         if (i != arr.size() - 1)
+//         {
+//             cout << ",";
+//         }
+//     }
+//     cout << "};" << endl;
+//     cout << "int[] index = new int[]{";
+//     for (int i = 0; i < ans.size(); i++)
+//     {
+//         cout << ans[i];
+//         if (i != ans.size() - 1)
+//         {
+//             cout << ",";
+//         }
+//     }
+//     cout << "};";
+//     return 0;
+// }
+
+// Prime
+// #include<iostream>
+// #include<cmath>
+// using namespace std;
+// bool isprime(long long x)
+// {
+//     if(x==1){
+//         return false;
+//     }
+//     if(x==2){
+//         return true;
+//     }
+//     for(long long i=2;i<=sqrt(x);i++){
+//         if(x%i!=0){
+//             continue;
+//         }
+//         else
+//         {
+//             return false;
+//         }
+//     }
+//     return true;
+// }
+// int main()
+// {
+//     long long N,x;
+//     cin>>N;
+//     while(N--){
+//         cin>>x;
+//         isprime(x)? cout<<"Yes"<<endl:cout<<"No"<<endl;
+//     }
+//     return 0;
+// }
+
+// Left-pad
+// #include<iostream>
+// #include<string>
+// using namespace std;
+// int main(){
+//     long long N;
+//     char ch;
+//     string s;
+//     cin>>N>>ch;
+//     getchar();
+//     getline(cin,s);
+//     if(s.length()<N){
+//         for(int i=0;i<N-s.length();i++){
+//             cout<<ch;
+//         }
+//         cout<<s;
+//     }
+//     else{
+//         cout<<s.substr(s.length()-N,N);
+//     }
+//     return 0;
+// }
+
+// 红色预警
+#include <iostream>
+#include <vector>
+using namespace std;
+#define ll long long
+// const int N = 109;
+// // 回联、访问、时间戳（记录迭代顺序）
+// int low[N], num[N], dfn;
+// // 割点
+// bool iscut[N];
+// vector<int> G[N];
+// // fa为u父节点
+// void DFS(int u, int fa)
+// {
+//     dfn++;
+//     num[u] = dfn;
+//     low[u] = dfn;
+//     long long child = 0;
+//     for (int i = 0; i < G[u].size(); i++)
+//     {
+//         int v = G[u][i];
+//         // num[v]为0，即节点v未被访问
+//         if (!num[v])
+//         {
+//             // u子节点++
+//             child++;
+//             DFS(v, u);
+//             low[u] = min(low[v], low[u]);
+//             // low[v] >= num[u] && u != 1，则u为割点
+//             // low[v] > num[u]，则u->v为割边
+//             if (low[v] >= num[u] && u != 1)
+//             {
+//                 iscut[u] = true;
+//             }
+//         }
+//         // 不Call Back父节点，Call Back祖先节点
+//         else if (num[v] < num[u] && v != fa)
+//         {
+//             low[u] = min(low[u], num[v]);
+//         }
+//     }
+//     // 根节点子树大于2，割点
+//     if (u == 1 && child >= 2)
+//     {
+//         iscut[1] = true;
+//     }
+// }
+// int main()
+// {
+//     int ans, n, m;
+//     cin >> n >> m;
+//     for (int i = 0; i < m; i++)
+//     {
+//         int u, v;
+//         cin >> u >> v;
+//         // 无向
+//         G[u].push_back(v);
+//         G[v].push_back(u);
+//     }
+//     memset(low, 0, sizeof(low));
+//     memset(num, 0, sizeof(num));
+//     dfn = 0;
+//     memset(iscut, false, sizeof(iscut));
+//     ans = 0;
+//     // Start Point: 1
+//     DFS(1, -1);
+//     for (int i = 1; i <= n; i++)
+//     {
+//         ans += iscut[i];
+//     }
+//     cout << ans << endl;
+//     // for (int i = 1; i <= n; i++)
+//     // {
+//     //     cout << low[i] << " " << num[i] << endl;
+//     // }
+//     return 0;
+// }
+
+// const ll N = 1e3 + 7;
+// ll n, m, k;
+// ll v[N], G[N][N];
+
+// ll froot(ll x)
+// {
+//     if (v[x] == x)
+//         return x;
+//     return v[x] = froot(v[x]);
+// }
+// void set_union(ll x, ll y)
+// {
+//     ll tx = froot(x), ty = froot(y);
+//     if (tx > ty)
+//         swap(tx, ty);
+//     v[ty] = tx;
+//     return;
+// }
+// void init()
+// {
+//     for (ll i = 0; i < n; i++)
+//         v[i] = i;
+// }
+// void solve()
+// {
+//     cin >> n >> m;
+//     init();
+//     ll x, y, c, sum = 0;
+//     while (m--)
+//     {
+//         cin >> x >> y;
+//         // Matrix
+//         G[x][y] = G[y][x] = 1;
+//         if (froot(x) != froot(y))
+//             set_union(x, y);
+//     }
+//     for (ll i = 0; i < n; i++)
+//         if (v[i] == i)
+//             sum++;
+//     cin >> k;
+//     for (ll i = 0; i < k; i++)
+//     {
+//         cin >> c;
+//         for (ll i = 0; i < n; i++)
+//             G[i][c] = G[c][i] = 0; // 清链
+//         init();
+//         for (ll i = 0; i < n; i++)
+//             for (ll j = 0; j < n; j++)
+//                 if (G[i][j])
+//                     set_union(i, j);
+//         ll nsum = 0;
+//         for (ll i = 0; i < n; i++)
+//             if (i == v[i])
+//                 nsum++;
+//         // 由于init，所以被删除点i的v[i]等于i，故nsum++，仅当i为割点时，nsum大于sum+1
+//         if (nsum <= sum + 1)
+//             cout << "City " << c << " is lost." << endl;
+//         else
+//             cout << "Red Alert: City " << c << " is lost!" << endl;
+//         sum = nsum; // 独立城市群
+//     }
+//     if (n == k)
+//         cout << "Game Over." << endl;
+//     return;
+// }
+// int main()
+// {
+//     ll t = 1;
+//     while (t--)
+//         solve();
+//     return 0;
+// }
+
+//
+#include <iostream>
+using namespace std;
+int main()
+{
+}
