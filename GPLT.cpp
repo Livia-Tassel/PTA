@@ -919,7 +919,7 @@
 //     return 0;
 // }
 
-// 全排列(递归)
+// 全排列(迭代)
 // #include <iostream>
 // #include <vector>
 // #include <algorithm>
@@ -943,7 +943,7 @@
 //         for (int i = begin; i <= end; i++)
 //         {
 //             swap(a[begin], a[i]); // 交换
-//             perm(begin + 1, end); // 递归
+//             perm(begin + 1, end); // 迭代
 //             swap(a[begin], a[i]); // 恢复
 //         }
 //     }
@@ -2436,7 +2436,7 @@
 //     return 0;
 // }
 
-// COin Combination(动态规划)
+// Coin Combination(动态规划)
 // #include <bits/stdc++.h>
 // using namespace std;
 // const int MONEY = 251;               // 最大金额
@@ -5373,10 +5373,10 @@
 // }
 
 // 红色预警
-#include <iostream>
-#include <vector>
-using namespace std;
-#define ll long long
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+// #define ll long long
 // const int N = 109;
 // // 回联、访问、时间戳（记录迭代顺序）
 // int low[N], num[N], dfn;
@@ -5523,9 +5523,273 @@ using namespace std;
 //     return 0;
 // }
 
-//
-#include <iostream>
-using namespace std;
-int main()
-{
-}
+// upper-bound
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+// int main()
+// {
+//     long long N;
+//     cin >> N;
+//     vector<long long> arr, tail;
+//     for (int i = 0; i < N; i++)
+//     {
+//         long long x;
+//         cin >> x;
+//         arr.push_back(x);
+//     }
+//     for (auto num : arr)
+//     {
+//         // cout<<num<<endl;
+//         // 首个小于num的值的迭代器
+//         auto it = upper_bound(tail.begin(), tail.end(), num);
+//         if (it == tail.end())
+//         {
+//             tail.push_back(num);
+//         }
+//         else
+//         {
+//             *it = num;
+//         }
+//     }
+//     cout << tail.size();
+//     return 0;
+// }
+
+// 互评成绩
+// #include <iostream>
+// #include <set>
+// #include <queue>
+// using namespace std;
+// int main()
+// {
+//     long long n, k, m, score;
+//     double sum = 0;
+//     priority_queue<double> ans;
+//     cin >> n >> k >> m;
+//     long long nm = m;
+//     for (int i = 0; i < n; i++)
+//     {
+//         priority_queue<long long> pq;
+//         sum = 0;
+//         for (int j = 0; j < k; j++)
+//         {
+//             cin >> score;
+//             pq.push(score);
+//         }
+//         pq.pop();
+//         while (pq.size() > 1)
+//         {
+//             sum += pq.top();
+//             pq.pop();
+//         }
+//         sum /= (k - 2);
+//         ans.push(sum);
+//     }
+//     vector<double> a;
+//     while (m--)
+//     {
+//         a.push_back(ans.top());
+//         ans.pop();
+//     }
+//     return 0;
+// }
+
+// 兄妹
+// #include <bits/stdc++.h>
+// using namespace std;
+// #define IOS ios::sync_with_stdio(0), cin.tie(0), cout.tie(0)
+// #define endl "\n"
+// #define fi first
+// #define se second
+// const int N = 1e6 + 10, INF = 0x3f3f3f3f;
+// long long n, k, flag = 0;
+// char sex[N];      // 性别
+// vector<int> e[N]; // 关系谱
+// set<int> s1, s2;  // 五代
+// void dfs(long long u, long long dep)
+// {
+//     if (dep > 5)
+//         return; // 超过五代
+//     if (!flag)
+//         s1.insert(u); // Male
+//     else
+//         s2.insert(u); // Female
+//                       // 遍历u→Parents
+//     for (auto j : e[u])
+//     {
+//         if (j == -1)
+//             continue;
+//         dfs(j, dep + 1);
+//     }
+// }
+
+// void solve()
+// {
+//     cin >> n;
+//     for (int i = 1; i <= n; i++)
+//     {
+//         long long a, b, c;
+//         char gender;
+//         cin >> a >> gender >> b >> c;
+//         sex[a] = gender;
+//         sex[b] = 'M';
+//         sex[c] = 'F'; // Parents Gender
+//         e[a].push_back(b);
+//         e[a].push_back(c);
+//     }
+//     cin >> k;
+//     while (k--)
+//     {
+//         long long a, b;
+//         cin >> a >> b;
+//         flag = 0;
+//         s1.clear();
+//         dfs(a, 1); // 向上a五代以亲人
+//         flag = 1;
+//         s2.clear();
+//         dfs(b, 1); // 向上b五代以亲人
+//         bool f = false;
+//         for (auto i : s2)
+//             if (s1.count(i))
+//                 f = true; // 近亲
+//         if (sex[a] == sex[b])
+//             cout << "Never Mind" << endl; // 同性
+//         else if (f)
+//             cout << "No" << endl;
+//         else
+//             cout << "Yes" << endl;
+//     }
+// }
+// signed main()
+// {
+//     IOS;
+//     long long T = 1;
+//     while (T--)
+//     {
+//         solve();
+//     }
+//     return 0;
+// }
+
+// 点赞
+// #include <iostream>
+// #include <map>
+// #include <vector>
+// #include <algorithm>
+// using namespace std;
+// bool compare(const pair<int, int> &a, const pair<int, int> &b)
+// {
+//     if (a.second != b.second)
+//     {
+//         return a.second > b.second;
+//     }
+//     else
+//     {
+//         return a.first < b.first;
+//     }
+// }
+// int main()
+// {
+//     long long n, k, tag;
+//     cin >> n;
+//     map<int, int> mp;
+//     while (n--)
+//     {
+//         cin >> k;
+//         for (int i = 0; i < k; i++)
+//         {
+//             cin >> tag;
+//             mp[tag]++;
+//         }
+//     }
+//     vector<pair<int, int>> ans(mp.begin(), mp.end());
+//     sort(ans.begin(), ans.end(), compare);
+//     cout << ans[0].first << " " << ans[0].second;
+//     return 0;
+// }
+
+// 古风排版
+// #include <bits/stdc++.h>
+// using namespace std;
+// int main()
+// {
+//     long long n, length, col, re, k = 0;
+//     cin >> n;
+//     cin.ignore();
+//     string s;
+//     getline(cin, s);
+//     length = s.length();
+//     col = length / n;
+//     re = length % n;
+//     char ans[n][col + 1];
+//     memset(ans, ' ', sizeof(ans));
+//     for (int j = col; j > 0; j--)
+//     {
+//         for (int i = 0; i < n; i++)
+//         {
+//             ans[i][j] = s[k];
+//             k++;
+//         }
+//     }
+//     for (int i = 0; i < re; i++)
+//     {
+//         ans[i][0] = s[col * n + i];
+//     }
+//     for (int i = 0; i < n; i++)
+//     {
+//         for (int j = 0; j < (col + 1); j++)
+//         {
+//             cout << ans[i][j];
+//         }
+//         if (i != n - 1)
+//             cout << endl;
+//     }
+//     return 0;
+// }
+
+// 最小子序列
+// #include <iostream>
+// #define ll long long
+// using namespace std;
+// int main()
+// {
+//     ll n, k, top = -1;
+//     cin >> n >> k;
+//     char stack[n], c;
+//     for (ll i = 0; i < n; i++)
+//     {
+//         cin >> c;
+//         if (top == -1)
+//         {
+//             top++;
+//             stack[top] = c;
+//             continue;
+//         }
+//         if (c >= stack[top])
+//         {
+//             if (top == k - 1)
+//             {
+//                 continue;
+//             }
+//             top++;
+//             stack[top] = c;
+//         }
+//         else
+//         {
+//             while (((n - i) > (k - top - 1)) && (c < stack[top]))
+//             {
+//                 top--;
+//             }
+//             top++;
+//             stack[top] = c;
+//         }
+//     }
+//     for (ll i = 0; i <= top; i++)
+//     {
+//         cout << stack[i];
+//     }
+//     return 0;
+// }
+
+// 
