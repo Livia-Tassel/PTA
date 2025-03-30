@@ -5792,4 +5792,103 @@
 //     return 0;
 // }
 
+// 点外卖
+// #include <iostream>
+// using namespace std;
+// typedef long long ll;
+// const ll MOD = 1000000007;
+
+// ll modPow(ll base, ll exp)
+// {
+//     ll res = 1 % MOD;
+//     base %= MOD;
+//     while (exp > 0)
+//     {
+//         if (exp & 1)
+//             res = (res * base) % MOD;
+//         base = (base * base) % MOD;
+//         exp >>= 1;
+//     }
+//     return res;
+// }
+
+// // 模逆元
+// ll modInv(ll x)
+// {
+//     return modPow(x, MOD - 2);
+// }
+
+// // 状态转移树过大，开销无法承受
+// // 转化为组合计数
+// // m==1 时 C(n-k+1, k)
+// ll calcComb(ll n, ll k)
+// {
+//     if (k > n)
+//         return 0;
+//     ll res = 1;
+//     for (ll i = 1; i <= k; i++)
+//     {
+//         // C(n, k)=n*(n-1)*...*(n-k+1)/k!
+//         res = res * ((n - i + 1) % MOD) % MOD;
+//         res = res * modInv(i) % MOD;
+//     }
+//     return res;
+// }
+
+// signed main()
+// {
+//     ios::sync_with_stdio(false);
+//     cin.tie(nullptr);
+
+//     ll T;
+//     cin >> T;
+//     while (T--)
+//     {
+//         ll n, m, k;
+//         cin >> n >> m >> k;
+
+//         if (k > n)
+//         {
+//             cout << 0 << "\n";
+//             continue;
+//         }
+//         if (k == 0)
+//         {
+//             cout << 1 << "\n";
+//             continue;
+//         }
+
+//         if (m == 1)
+//         {
+//             // n-k+1 >= k 才合法，否则为0
+//             ll ans = (n - k + 1 >= k ? calcComb(n - k + 1, k) : 0);
+//             cout << ans % MOD << "\n";
+//             continue;
+//         }
+
+//         // m >= 2
+//         ll L = min(k, n - k + 1);
+//         // T(1) = (n-k+1) * m * (m-1)^(k-1)
+//         ll term = ((n - k + 1) % MOD) * (m % MOD) % MOD;
+//         term = term * modPow(m - 1, k - 1) % MOD;
+//         ll ans = term;
+
+//         // r个片段
+//         for (ll r = 1; r < L; r++)
+//         {
+//             // 迭代+求和
+//             ll numerator = (((n - k + 1 - r) % MOD) * ((k - r) % MOD)) % MOD;
+//             // T(r)=\binom{n-k+1}{r}\binom{k-1}{r-1}m^r(m-1)^{k-r}\.
+//             ll denominator = (((r + 1) % MOD) * (r % MOD)) % MOD;
+//             denominator = (denominator * ((m - 1) % MOD)) % MOD;
+//             ll factor = numerator * modInv(denominator) % MOD;
+//             term = term * factor % MOD;
+//             ans = (ans + term) % MOD;
+//         }
+
+//         cout << ans % MOD << "\n";
+//     }
+//     return 0;
+// }
+
 // 
