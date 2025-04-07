@@ -5891,4 +5891,62 @@
 //     return 0;
 // }
 
+// 块排序
+// #include <iostream>
+// #include <vector>
+// #include <algorithm>
+// #define ll long long
+// using namespace std;
+// signed main()
+// {
+//     ll n, k, x;
+//     cin >> n >> k;
+//     vector<ll> arr(n + 1), vis(n + 1);
+//     for (ll i = 1; i <= n; i++)
+//     {
+//         cin >> arr[i];
+//         vis[i] = 0;
+//     }
+//     vector<ll> sarr = arr;
+//     sort(sarr.begin(), sarr.end());
+//     // 分k块
+//     for (ll x = 2; x <= n; x++)
+//     {
+//         bool flag = true;
+//         for (ll t = 1; t <= x; t++)
+//         {
+//             for (ll r = t; r <= n; r += x)
+//             {
+//                 if ((arr[r] - t) % x != 0)
+//                 {
+//                     flag = false;
+//                     break;
+//                 }
+//             }
+//             if (!flag)
+//             {
+//                 break;
+//             }
+//         }
+//         if (flag)
+//         {
+//             vis[x] = 1;
+//         }
+//     }
+//     while (k--)
+//     {
+//         cin >> x;
+//         if (x == 1)
+//         {
+//             cout << "YES" << endl;
+//         }
+//         else
+//         {
+//             vis[x] ? cout << "YES" : cout << "NO";
+//             cout << endl;
+//         }
+//     }
+//     return 0;
+// }
+
 // 
