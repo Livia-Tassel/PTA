@@ -919,7 +919,7 @@
 //     return 0;
 // }
 
-// 全排列(递归)
+// 全排列(迭代)
 // #include <iostream>
 // #include <vector>
 // #include <algorithm>
@@ -943,7 +943,7 @@
 //         for (int i = begin; i <= end; i++)
 //         {
 //             swap(a[begin], a[i]); // 交换
-//             perm(begin + 1, end); // 递归
+//             perm(begin + 1, end); // 迭代
 //             swap(a[begin], a[i]); // 恢复
 //         }
 //     }
@@ -2436,7 +2436,7 @@
 //     return 0;
 // }
 
-// COin Combination(动态规划)
+// Coin Combination(动态规划)
 // #include <bits/stdc++.h>
 // using namespace std;
 // const int MONEY = 251;               // 最大金额
@@ -3587,9 +3587,2366 @@
 //     return 0;
 // }
 
-#include <iostream>
-using namespace std;
-int main()
-{
-    cout << "Hello World!" << endl;
-}
+// AC自动机
+// #include <iostream>
+// using namespace std;
+// int main()
+// {
+//     ios::sync_with_stdio(false);
+//     cin.tie(nullptr);
+//     cout.tie(nullptr);
+//     return 0;
+// }
+
+// 后缀数组
+// #include <iostream>
+// #include <cstring>
+// using namespace std;
+// // the suffix array contains all possible occurrences of t.
+// // use binary matching to find the suffix whose lexicographical order is closest to that of t.
+// int suffix_tree(string s, string t, int *sa)
+// {
+//     int l = 0, r = s.length();
+//     // 区间中大于两个元素
+//     while (r - l > 1)
+//     {
+//         int mid = (l + r) >> 1;
+//         // 字典序比较
+//         if (s.compare(sa[mid], t.length(), t) < 0)
+//         {
+//             l = mid;
+//         }
+//         else
+//         {
+//             r = mid;
+//         }
+//     }
+//     // 查找成功
+//     if (s.compare(sa[r], t.length(), t) == 0)
+//     {
+//         return sa[r];
+//     }
+//     if (s.compare(sa[l], t.length(), t) == 0)
+//     {
+//         return sa[l];
+//     }
+//     // 查找失败
+//     return -1;
+// }
+// int main()
+// {
+//     ios::sync_with_stdio(false);
+//     cin.tie(nullptr);
+//     cout.tie(nullptr);
+//     string s = "vamamadn", t = "ad";
+//     // 后缀数组（字典序）
+//     int sa[] = {5, 3, 1, 6, 4, 2, 7, 0};
+//     int location = suffix_tree(s, t, sa);
+//     // s[location]:索引为location的字符
+//     // &s[location]:索引为location的字符的地址，location位置开始到字符串末尾的所有字符
+//     cout << location << ":" << &s[location] << endl;
+//     return 0;
+// }
+
+// 倍增法（模板）
+// #include <iostream>
+// #include <string>
+// using namespace std;
+// const int MAXN = 200005;
+// char s[MAXN]; // 字符
+// int sa[MAXN], rk[MAXN], temp[MAXN + 1];
+// int n, k;
+// bool comp_sa(int i, int j)
+// {
+//     // 高位比较
+//     if (rk[i] != rk[j])
+//     {
+//         return rk[i] < rk[j];
+//     }
+//     else
+//     {
+//         int ri = i + k <= n ? rk[i + k] : -1;
+//         int rj = j + k <= n ? rk[j + k] : -1;
+//         return ri < rj;
+//     }
+// }
+// void calc_sa()
+// {
+//     for (int i = 0; i <= n; i++)
+//     {
+//         rk[i] = s[i];
+//         sa[i] = i;
+//     }
+//     for (k = 1; k <= n; k *= 2)
+//     {
+//         sort(sa, sa + n, comp_sa);
+//         temp[sa[0]] = 0;
+//         for (int i = 0; i < n; i++)
+//         {
+//             temp[sa[i + 1]] = temp[sa[i]] + (comp_sa(sa[i], sa[i + 1]) ? 1 : 0);
+//         }
+//         for (int i = 0; i < n; i++)
+//         {
+//             rk[i] = temp[i];
+//         }
+//     }
+// }
+// int main()
+// {
+//     ios::sync_with_stdio(false);
+//     cin.tie(nullptr);
+//     cout.tie(nullptr);
+//     cin >> s;
+//     n = strlen(s);
+//     calc_sa();
+//     for (int i = 0; i < n; i++)
+//     {
+//         cout << sa[i] << " ";
+//     }
+//     return 0;
+// }
+
+// 最长公共 SubString
+// #include <iostream>
+// #include <string>
+// using namespace std;
+// const int MAXN = 200005;
+// char s[MAXN]; // 字符
+// int sa[MAXN], rk[MAXN], temp[MAXN + 1], height[MAXN];
+// int n, k;
+// bool comp_sa(int i, int j)
+// {
+//     // 高位比较
+//     if (rk[i] != rk[j])
+//     {
+//         return rk[i] < rk[j];
+//     }
+//     else
+//     {
+//         int ri = i + k <= n ? rk[i + k] : -1;
+//         int rj = j + k <= n ? rk[j + k] : -1;
+//         return ri < rj;
+//     }
+// }
+// void calc_sa()
+// {
+//     for (int i = 0; i <= n; i++)
+//     {
+//         rk[i] = s[i];
+//         sa[i] = i;
+//     }
+//     for (k = 1; k <= n; k *= 2)
+//     {
+//         sort(sa, sa + n, comp_sa);
+//         temp[sa[0]] = 0;
+//         for (int i = 0; i < n; i++)
+//         {
+//             temp[sa[i + 1]] = temp[sa[i]] + (comp_sa(sa[i], sa[i + 1]) ? 1 : 0);
+//         }
+//         for (int i = 0; i < n; i++)
+//         {
+//             rk[i] = temp[i];
+//         }
+//     }
+// }
+// void getheight(int n)
+// {
+//     int i, j, m = 0;
+//     for (i = 0; i < n; i++)
+//     {
+//         rk[sa[i]] = i;
+//     }
+//     for (i = 0; i < n; i++)
+//     {
+//         if (m)
+//         {
+//             m--;
+//         }
+//         j = sa[rk[i] - 1];
+//         while (s[i + m] == s[j + m])
+//         {
+//             m++;
+//         }
+//         height[rk[i]] = m;
+//     }
+// }
+// int main()
+// {
+//     int len, ans;
+//     while (scanf("%s", s) != EOF)
+//     {
+//         n = strlen(s);
+//         len = n;
+//         s[n] = '$';
+//         scanf("%s", s + n + 1);
+//         n = strlen(s);
+//         calc_sa();
+//         getheight(n);
+//         // for (int i = 0; i < 13; i++)
+//         // {
+//         //     cout << sa[i] << " " << height[i] << endl;
+//         // }
+//         ans = 0;
+//         for (int i = 1; i < n; i++)
+//         {
+//             if (height[i] > ans && ((sa[i - 1] < len && sa[i] >= len) || (sa[i - 1] >= len && sa[i] < len)))
+//             {
+//                 ans = height[i];
+//             }
+//         }
+//         cout << ans;
+//     }
+//     return 0;
+// }
+
+// 邻接表
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+// const int NUM = 10005;
+// struct edge
+// {
+//     // 编号、邻接点、权值
+//     int index, to, w;
+//     edge(int dex, int t, int w) : index(dex), to(t), w(w) {}
+// };
+// vector<edge> e[NUM];
+// int main()
+// {
+//     int dex, t, w, n, m;
+//     cin >> n >> m;
+//     // 初始化
+//     for (int i = 1; i <= n; i++)
+//     {
+//         e[i].clear();
+//     }
+//     // 存边
+//     for (int i = 1; i <= m; i++)
+//     {
+//         cin >> dex >> t >> w;
+//         e[dex].push_back(edge(dex, t, w));
+//     }
+//     // 遍历
+//     for (int i = 0; i < e[2].size(); i++)
+//     {
+//         cout << e[2][i].index << "->" << e[2][i].to << "权值为：" << e[2][i].w << endl;
+//     }
+//     return 0;
+// }
+
+// 链式向前星
+// #include <iostream>
+// using namespace std;
+// const int NUM = 100005;
+// struct Edge
+// {
+//     int to, next, w;
+// } edge[NUM];
+// int head[NUM]; // 头链表
+// int cnt;
+// void init()
+// {
+//     for (int i = 0; i < NUM; i++)
+//     {
+//         edge[i].next = -1; // 链式末尾
+//         head[i] = -1;      // 无邻接点
+//     }
+//     cnt = 0;
+// }
+// void pushedge(int u, int v, int w)
+// {
+//     edge[cnt].to = v;
+//     edge[cnt].w = w;
+//     edge[cnt].next = head[u];
+//     head[u] = cnt++;
+// }
+// int main()
+// {
+//     int n, m;
+//     cin >> n >> m;
+//     init();
+//     for (int i = 0; i < m; i++)
+//     {
+//         int u, v, w;
+//         cin >> u >> v >> w;
+//         pushedge(u, v, w);
+//     }
+//     // 遍历节点2的所有边
+//     for (int i = head[2]; i != -1; i = edge[i].next)
+//     {
+//         cout << "节点2->节点" << edge[i].to << "权值：" << edge[i].w << endl;
+//     }
+//     return 0;
+// }
+
+// 基于BFS的拓扑排序
+// #include <iostream>
+// using namespace std;
+// const int N = 1001;
+// queue<int> q;
+// // 求解按字典序输出则将队列改为优先队列即可（或自定义比较函数）
+// vector<int> G[N]; // 邻接边
+// vector<int> ans;  // 拓扑序列
+// int InDegree[N];
+// bool BFS_TopoSort(int n)
+// {
+//     for (int i = 1; i <= n; i++)
+//         if (InDegree[i] == 0)
+//             q.push(i); // 将 InDegree 为0的点入队
+//     while (!q.empty())
+//     {
+//         int u = q.front();
+//         q.pop();
+//         ans.push_back(u);
+//         for (int i = 0; i < G[u].size(); i++)
+//         {
+//             int v = G[u][i];
+//             InDegree[v]--;
+//             // 任何时刻队列元素大于1，则拓扑排序不唯一
+//             if (InDegree[v] == 0)
+//                 q.push(v);
+//         }
+//     }
+//     // 拓扑排序成功
+//     if (ans.size() == n)
+//     {
+//         for (int i = 0; i < ans.size(); i++)
+//         {
+//             cout << ans[i] << " ";
+//         }
+//         return true;
+//     }
+//     return false;
+// }
+// int main()
+// {
+//     int n, m;
+//     cin >> n >> m;
+//     for (int i = 0; i < m; i++)
+//     {
+//         int u, v;
+//         cin >> u >> v;
+//         G[u].push_back(v);
+//         InDegree[v]++;
+//     }
+//     BFS_TopoSort(n);
+//     return 0;
+// }
+
+// 基于DFS的拓扑排序
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+// const int N = 1005;
+// int tot;
+// vector<int> G[N], ans(N);  // 邻接边
+// vector<int> visited(N, 0); // 1:访问中 -1:已访问 0:未访问
+// bool DFS_TopoSort(int u)
+// {
+//     // 节点u正在访问
+//     visited[u] = true;
+//     // 遍历u的邻接节点
+//     for (int i = 0; i < G[u].size(); i++)
+//     {
+//         int v = G[u][i];
+//         if (visited[v] == 1)
+//             return false; // 后驱节点先访问，访问失败，存在环
+//         // 后驱节点未访问
+//         if (!visited[v])
+//         {
+//             // 迭代访问v，后驱节点均成功访问完，则成功访问
+//             if (!DFS_TopoSort(v))
+//             {
+//                 return false;
+//             }
+//         }
+//     }
+//     visited[u] = -1;
+//     // 访问成功，逆序存储，深层优先
+//     ans[tot++] = u;
+//     return true;
+// }
+// int main()
+// {
+//     int n, m, u, v;
+//     cin >> n >> m;
+//     while (m--)
+//     {
+//         cin >> u >> v;
+//         G[u].push_back(v);
+//     }
+//     // 遍历所有可能节点
+//     for (int i = 1; i <= n; i++)
+//         if (!visited[i])
+//             DFS_TopoSort(i);
+//     for (int i = tot - 1; i >= 0; i--)
+//         cout << ans[i] << " ";
+//     return 0;
+// }
+
+// NeckLace（欧拉环）
+// #include <iostream>
+// #include <cstring>
+// #include <vector>
+// using namespace std;
+// const int N = 55;
+// long long e[N][N], degree[N];
+// // 节点u开始DFS
+// void OL(int u, int n)
+// {
+//     int v;
+//     for (v = 1; v <= n; v++)
+//     {
+//         if (e[u][v] > 0)
+//         {
+//             e[u][v]--;
+//             e[v][u]--;
+//             OL(v, n);
+//             // 迭代访问完毕后，OutPut （v，u）
+//             // 特别地，3→1时，1已经迭代返回，即 OutPut（1，3）
+//             cout << v << " " << u << endl;
+//         }
+//     }
+// }
+// int main()
+// {
+//     int i, u, v, n, m;
+//     bool flag = true;
+//     memset(degree, 0, sizeof(degree));
+//     memset(e, 0, sizeof(e));
+//     cin >> n >> m;
+//     for (i = 0; i < m; i++)
+//     {
+//         cin >> u >> v;
+//         e[u][v]++;
+//         e[v][u]++;
+//         degree[u]++;
+//         degree[v]++;
+//     }
+//     for (i = 1; i <= n; i++)
+//     {
+//         if (degree[i] % 2 == 1)
+//         {
+//             flag = false;
+//             break;
+//         }
+//     }
+//     if (!flag)
+//         printf("Ah Some thing go wrong!\n");
+//     else
+//     {
+//         for (i = 1; i < N; i++)
+//         {
+//             // 欧拉环，迭代
+//             if (degree[i])
+//             {
+//                 OL(i, n);
+//             }
+//         }
+//     }
+//     cout << endl;
+//     return 0;
+// }
+
+// 割点
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+// const int N = 109;
+// // 回联、访问、时间戳（记录迭代顺序）
+// int low[N], num[N], dfn;
+// // 割点
+// bool iscut[N];
+// vector<int> G[N];
+// // fa为u父节点
+// void DFS(int u, int fa)
+// {
+//     dfn++;
+//     num[u] = dfn;
+//     low[u] = dfn;
+//     long long child = 0;
+//     for (int i = 0; i < G[u].size(); i++)
+//     {
+//         int v = G[u][i];
+//         // num[v]为0，即节点v未被访问
+//         if (!num[v])
+//         {
+//             // u子节点++
+//             child++;
+//             DFS(v, u);
+//             low[u] = min(low[v], low[u]);
+//             // low[v] >= num[u] && u != 1，则u为割点
+//             // low[v] > num[u]，则u->v为割边
+//             if (low[v] >= num[u] && u != 1)
+//             {
+//                 iscut[u] = true;
+//             }
+//         }
+//         // 不Call Back父节点，Call Back祖先节点
+//         else if (num[v] < num[u] && v != fa)
+//         {
+//             low[u] = min(low[u], num[v]);
+//         }
+//     }
+//     // 根节点子树大于2，割点
+//     if (u == 1 && child >= 2)
+//     {
+//         iscut[1] = true;
+//     }
+// }
+// int main()
+// {
+//     int ans, n, m;
+//     cin >> n >> m;
+//     for (int i = 0; i < m; i++)
+//     {
+//         int u, v;
+//         cin >> u >> v;
+//         // 无向
+//         G[u].push_back(v);
+//         G[v].push_back(u);
+//     }
+//     memset(low, 0, sizeof(low));
+//     memset(num, 0, sizeof(num));
+//     dfn = 0;
+//     memset(iscut, false, sizeof(iscut));
+//     ans = 0;
+//     // Start Point: 1
+//     DFS(1, -1);
+//     for (int i = 1; i <= n; i++)
+//     {
+//         ans += iscut[i];
+//     }
+//     cout << ans << endl;
+//     // for (int i = 1; i <= n; i++)
+//     // {
+//     //     cout << low[i] << " " << num[i] << endl;
+//     // }
+//     return 0;
+// }
+
+// 边双连通分量
+// #include <iostream>
+// #include <iostream>
+// #include <cstring>
+// using namespace std;
+// const int N = 1005;
+// int n, m, low[N], dfn;
+// vector<int> G[N];
+// void DFS(int u, int fa)
+// {
+//     low[u] = ++dfn;
+//     for (int i = 0; i < G[u].size(); i++)
+//     {
+//         int v = G[u][i];
+//         if (v == fa)
+//         {
+//             continue;
+//         }
+//         if (!low[v])
+//         {
+//             DFS(v, u);
+//         }
+//         // num[]记录初始访问顺序，求割点时起作为，其对求low[]无太大意义
+//         low[u] = min(low[u], low[v]);
+//     }
+// }
+// // 缩点
+// int Tarjan()
+// {
+//     int degree[N], res = 0;
+//     memset(degree, 0, sizeof(degree));
+//     // 缩点同时统计 degree
+//     for (int i = 1; i <= n; i++)
+//     {
+//         for (int j = 0; j < G[i].size(); j++)
+//         {
+//             if (low[i] != low[G[i][j]])
+//             {
+//                 degree[low[i]]++;
+//             }
+//         }
+//     }
+//     // 统计degree为1的节点
+//     for (int i = 1; i <= n; i++)
+//     {
+//         if (degree[i] == 1)
+//         {
+//             res++;
+//         }
+//     }
+//     return res;
+// }
+
+// int main()
+// {
+//     cin >> n >> m;
+//     memset(low, 0, sizeof(low));
+//     for (int i = 0; i <= n; i++)
+//     {
+//         G[i].clear();
+//     }
+//     for (int i = 0; i < m; i++)
+//     {
+//         int u, v;
+//         cin >> u >> v;
+//         G[u].push_back(v);
+//         // G[v].push_back[u];
+//     }
+//     dfn = 0;
+//     DFS(1, -1);
+//     int ans = Tarjan();
+//     cout << (ans + 1) / 2 << endl;
+//     return 0;
+// }
+
+// Floyd-Warshall（中转点）
+// #include <iostream>
+// using namespace std;
+// const int INF = 10E7;
+// const int N = 105;
+// int G[N][N], n, m;
+// // 多源最短
+// void Floyd()
+// {
+//     // 启始点
+//     int s = 1;
+//     // 中转点 k
+//     for (int k = 1; k <= n; k++)
+//     {
+//         for (int i = 1; i <= n; i++)
+//         {
+//             // 由于Floyd的涟漪效应，单中转点只需对其邻居缩放即可，局部最优将放大至全局最优
+//             if (G[i][k] != INF)
+//             {
+//                 for (int j = 1; j <= n; j++)
+//                 {
+//                     if (G[i][j] > G[i][k] + G[k][j])
+//                     {
+//                         G[i][j] = G[i][k] + G[k][j];
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     cout << G[s][n] << endl;
+// }
+// int main()
+// {
+//     ios::sync_with_stdio(false); // 提高 cin/cout 性能
+//     cin.tie(NULL);               // 解除 cin 和 cout 的绑定
+//     cout.tie(NULL);
+//     cin >> n >> m;
+//     if (n == 0 && m == 0)
+//     {
+//         return 0;
+//     }
+//     // 初始化
+//     for (int i = 1; i <= n; i++)
+//     {
+//         for (int j = 1; j <= n; j++)
+//         {
+//             G[i][j] = INF;
+//         }
+//     }
+//     while (m--)
+//     {
+//         int u, v, w;
+//         cin >> u >> v >> w;
+//         G[u][v] = G[v][u] = w;
+//     }
+//     Floyd();
+//     // G[i][i]：中转节点→原地 Min_Distance，其小于0即有负圈
+//     // for (int i = 1; i <= n; i++)
+//     // {
+//     //     if (G[i][i] < 0)
+//     //     {
+//     //         cout << "Negative Cycle!";
+//     //     }
+//     // }
+//     return 0;
+// }
+
+// Bellman-Ford（松弛边）
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+// const int INF = 1E6;
+// const int N = 105;
+// struct edge
+// {
+//     int u, v, w;
+// } e[1005];
+// int n, m, cnt;
+// vector<int> pre(N); // 记录前驱
+// void Print_Path(int s, int t)
+// {
+//     // 起点s
+//     if (s == t)
+//     {
+//         cout << s << " ";
+//         return;
+//     }
+//     // 打印前驱节点
+//     Print_Path(s, pre[t]);
+//     // 打印现节点
+//     cout << t << " ";
+// }
+// void Bellman()
+// {
+//     int s = 1, k = 0, update = 1;
+//     vector<int> dis(N);
+//     for (int i = 1; i <= n; i++)
+//     {
+//         dis[i] = INF;
+//     }
+//     dis[s] = 0;
+//     // 松弛→无update
+//     while (update)
+//     {
+//         k++;
+//         update = 0;
+//         if (k > n)
+//         {
+//             cout << "Negative Cycle!" << endl;
+//             return;
+//         }
+//         // 松弛所有边
+//         for (int i = 0; i < cnt; i++)
+//         {
+//             int x = e[i].u, y = e[i].v;
+//             if (dis[y] > dis[x] + e[i].w)
+//             {
+//                 update = 1;
+//                 dis[y] = dis[x] + e[i].w;
+//                 pre[y] = x;
+//             }
+//         }
+//     }
+//     cout << dis[n] << endl;
+//     Print_Path(s, n);
+// }
+// int main()
+// {
+//     cin >> n >> m;
+//     if (n == 0 && m == 0)
+//     {
+//         return 0;
+//     }
+//     cnt = 0;
+//     while (m--)
+//     {
+//         int u, v, w;
+//         cin >> u >> v >> w;
+//         // 无向
+//         e[cnt].u = u;
+//         e[cnt].v = v;
+//         e[cnt].w = w;
+//         cnt++;
+//         // e[cnt].u = v;
+//         // e[cnt].v = u;
+//         // e[cnt].w = w;
+//         // cnt++;
+//     }
+//     Bellman();
+//     return 0;
+// }
+
+// SPFA
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+// const int INF = 1E6;
+// const int N = 105;
+// struct edge
+// {
+//     int from, to, w;
+//     edge(int f, int t, int w) : from(f), to(t), w(w) {};
+// };
+// vector<edge> e[N];
+// int n, m, pre[N];
+// void Print_Path(int s, int t)
+// {
+//     if (s == t)
+//     {
+//         cout << s << " ";
+//         return;
+//     }
+//     Print_Path(s, pre[t]);
+//     cout << t << " ";
+// }
+// int SPFA(int s)
+// {
+//     vector<int> dis(N + 1, INF), visited(N + 1, 0), neg(N + 1, 0);
+//     neg[s] = 1;
+//     dis[s] = 0;
+//     queue<int> Q;
+//     Q.push(s);
+//     visited[s] = 1; // 入队标记
+//     while (!Q.empty())
+//     {
+//         int u = Q.front();
+//         Q.pop();
+//         visited[u] = 0; // 队头OUT
+//         for (int i = 0; i < e[u].size(); i++)
+//         {
+//             int v = e[u][i].to;
+//             if (dis[v] > dis[u] + e[u][i].w)
+//             {
+//                 dis[v] = dis[u] + e[u][i].w;
+//                 pre[v] = u;
+//                 if (!visited[v])
+//                 {
+//                     Q.push(v);
+//                     visited[v] = 1;
+//                     neg[v]++;
+//                     // n+1次入队，负圈
+//                     if (neg[v] > n)
+//                     {
+//                         cout << "Negative Cycle!" << endl;
+//                         return 1;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     cout << dis[n] << endl;
+//     Print_Path(s, n);
+//     return 0;
+// }
+// int main()
+// {
+//     cin >> n >> m;
+//     if (n == 0 && m == 0)
+//     {
+//         return 0;
+//     }
+//     for (int i = 1; i <= n; i++)
+//     {
+//         e[i].clear();
+//     }
+//     while (m--)
+//     {
+//         int u, v, w;
+//         cin >> u >> v >> w;
+//         e[u].push_back(edge(u, v, w));
+//         // e[v].push_back(edge(v, u, w));
+//     }
+//     SPFA(1);
+//     return 0;
+// }
+
+// SPFA（模板）
+// #include <iostream>
+// #include <vector>
+// #include <queue>
+// using namespace std;
+// const int INF = 1E9;
+// const int N = 1000005;
+// struct Edge
+// {
+//     int to, next, w;
+// } edge[N];
+// int n, m, cnt;
+// vector<int> head(N), dis(N), vis(N), neg(N, 0), pre(N);
+// void Print_Path(int s, int t)
+// {
+//     if (s == t)
+//     {
+//         cout << s << " ";
+//         return;
+//     }
+//     Print_Path(s, pre[t]);
+//     cout << t << " ";
+// }
+// void init()
+// {
+//     for (int i = 0; i < N; i++)
+//     {
+//         head[i] = -1;
+//         edge[i].next = -1;
+//     }
+//     cnt = 0;
+// }
+// void pushedge(int u, int v, int w)
+// {
+//     edge[cnt].to = v;
+//     edge[cnt].w = w;
+//     edge[cnt].next = head[u];
+//     head[u] = cnt++;
+// }
+// int SPFA(int s)
+// {
+//     neg[s] = 1;
+//     for (int i = 1; i <= n; i++)
+//     {
+//         dis[i] = INF;
+//         vis[i] = 0;
+//     }
+//     dis[s] = 0;
+//     queue<int> Q;
+//     Q.push(s);
+//     vis[s] = 1;
+//     while (!Q.empty())
+//     {
+//         int u = Q.front();
+//         Q.pop();
+//         vis[u] = 0;
+//         for (int i = head[u]; i != -1; i = edge[i].next)
+//         {
+//             int v = edge[i].to;
+//             if (dis[v] > dis[u] + edge[i].w)
+//             {
+//                 dis[v] = dis[u] + edge[i].w;
+//                 pre[v] = u;
+//                 if (!vis[v])
+//                 {
+//                     Q.push(v);
+//                     vis[v] = 1;
+//                     neg[v]++;
+//                     if (neg[v] > n)
+//                     {
+//                         cout << "Negative Cycle!" << endl;
+//                         return 1;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     cout << dis[n] << endl;
+//     Print_Path(s, n);
+//     return 0;
+// }
+// int main()
+// {
+//     cin >> n >> m;
+//     if (n == 0 && m == 0)
+//     {
+//         return 0;
+//     }
+//     init();
+//     while (m--)
+//     {
+//         int u, v, w;
+//         cin >> u >> v >> w;
+//         pushedge(u, v, w);
+//         // pushedge(v, u, w);
+//     }
+//     SPFA(1);
+//     return 0;
+// }
+
+// Dijkstra（负边失效）
+// #include <iostream>
+// using namespace std;
+// const int INF = 1E6;
+// const int N = 1005;
+// struct edge
+// {
+//     int from, to, w;
+//     edge(int f, int t, int w) : from(f), to(t), w(w) {};
+// };
+// // 存储图
+// vector<edge> e[N];
+// struct node
+// {
+//     int id, dis;
+//     node(int i, int d) : id(i), dis(d) {};
+//     // 升序
+//     bool operator<(const node &n) const
+//     {
+//         return dis > n.dis;
+//     }
+// };
+// int n, m, pre[N];
+// void Print_Path(int s, int t)
+// {
+//     if (s == t)
+//     {
+//         cout << s << " ";
+//         return;
+//     }
+//     Print_Path(s, pre[t]);
+//     cout << t << " ";
+// }
+// void Dijkstra()
+// {
+//     int s = 1;
+//     vector<int> dis(N + 1, INF);
+//     vector<bool> vis(N + 1, false);
+//     dis[s] = 0;
+//     // 最近节点队列
+//     priority_queue<node> Q;
+//     Q.push(node(s, dis[s]));
+//     while (!Q.empty())
+//     {
+//         node t = Q.top();
+//         Q.pop();
+//         // t.id已绑定，舍去
+//         if (vis[t.id])
+//         {
+//             continue;
+//         }
+//         vis[t.id] = true;
+//         for (int i = 0; i < e[t.id].size(); i++)
+//         {
+//             edge tv = e[t.id][i];
+//             int v = tv.to;
+//             // cout << "父节点：" << t.id << "子节点：" << v << endl;
+//             // 节点v已绑定，舍去（所有节点仅出入队一次即可）
+//             if (vis[v])
+//             {
+//                 continue;
+//             }
+//             // 出队时，t.dis记录最短距离
+//             if (dis[v] > t.dis + tv.w)
+//             {
+//                 dis[v] = t.dis + tv.w;
+//                 Q.push(node(v, dis[v]));
+//                 pre[v] = t.id;
+//             }
+//         }
+//     }
+//     // for (int i = 1; i <= n; i++)
+//     // {
+//     //     cout << "dis[" << i << "]=" << dis[i] << " ";
+//     // }
+//     // cout << endl;
+//     Print_Path(s, n);
+// }
+// int main()
+// {
+//     cin >> n >> m;
+//     if (n == 0 && m == 0)
+//     {
+//         return 0;
+//     }
+//     for (int i = 1; i <= n; i++)
+//     {
+//         e[i].clear();
+//     }
+//     while (m--)
+//     {
+//         int u, v, w;
+//         cin >> u >> v >> w;
+//         e[u].push_back(edge(u, v, w));
+//         e[v].push_back(edge(v, u, w));
+//     }
+//     Dijkstra();
+
+//     return 0;
+// }
+
+// Prim（点贪心）
+
+// Kruskal（边贪心）
+// #include <iostream>
+// using namespace std;
+// const int N = 103;
+// int n, m;
+// // 并查集
+// int S[N];
+// struct Edge
+// {
+//     int u, v, w;
+// } edge[N * N];
+// // 升序
+// bool compare(const Edge &a, const Edge &b)
+// {
+//     return a.w < b.w;
+// }
+// int froot(int u)
+// {
+//     // 父节点等于自身否，等于则为根节点，否则迭代
+//     return S[u] == u ? u : froot(S[u]);
+// }
+// // 压缩路径
+// int frootpro(int x)
+// {
+//     if (S[x] != x)
+//     {
+//         S[x] = frootpro(S[x]);
+//     }
+//     return S[x];
+// }
+// void init()
+// {
+//     for (int i = 1; i <= n; i++)
+//     {
+//         S[i] = i;
+//     }
+// }
+// int Kruskal()
+// {
+//     int ans = 0;
+//     init();
+//     sort(edge + 1, edge + m + 1, compare);
+//     for (int i = 1; i <= m; i++)
+//     {
+//         int u = edge[i].u;
+//         int v = edge[i].v;
+//         if (frootpro(u) != frootpro(v))
+//         {
+//             S[frootpro(v)] = u;
+//             ans += edge[i].w;
+//         }
+//     }
+//     return ans;
+// }
+// int main()
+// {
+//     cin >> n;
+//     m = n * (n - 1) / 2;
+//     for (int i = 1; i <= m; i++)
+//     {
+//         int u, v, w;
+//         cin >> u >> v >> w;
+//         edge[i].u = u;
+//         edge[i].v = v;
+//         edge[i].w = w;
+//     }
+//     int ans = Kruskal();
+//     cout << "最短距离: " << ans;
+//     return 0;
+// }
+
+// 家庭房产（未完待续）
+// #include <iostream>
+// #include <set>
+// #include <iomanip>
+// using namespace std;
+// const int MAXN = 10001;
+// int family[MAXN], vis[MAXN] = {};
+// struct Clan
+// {
+//     int faid;
+//     set<int> people;
+//     double house, area;
+//     Clan(int f = -1, double h = 0, double a = 0) : faid(f), house(h), area(a) {};
+// } clan[MAXN];
+// void init()
+// {
+//     for (int i = 0; i < MAXN; i++)
+//     {
+//         family[i] = i;
+//     }
+// }
+// int froot(int x)
+// {
+//     if (family[x] != x)
+//     {
+//         family[x] = froot(family[x]);
+//     }
+//     return family[x];
+// }
+// void set_union(int u, int v)
+// {
+//     int fau = froot(u);
+//     int fav = froot(v);
+//     if (fau != fav)
+//     {
+//         family[fav] = fau;
+//     }
+// }
+// int main()
+// {
+//     int n, id, fa, ma, k, cid, house, area;
+//     cin >> n;
+//     init();
+//     for (int i = 0; i < n; i++)
+//     {
+//         cin >> id >> fa >> ma >> k;
+//         // 父母健在
+//         if (fa != -1 && ma != -1)
+//         {
+//             // 一家之长
+//             if (family[fa] == fa)
+//             {
+//                 // 未创立家族
+//                 if (!vis[fa])
+//                 {
+//                     clan[fa].faid = fa;
+//                     clan[fa].people.insert(id);
+//                     clan[fa].people.insert(ma);
+//                     clan[fa].people.insert(fa);
+//                     vis[fa] = 1;
+//                 }
+//                 else
+//                 {
+//                     clan[fa].people.insert(id);
+//                     clan[fa].people.insert(ma);
+//                     clan[fa].people.insert(fa);
+//                 }
+//                 set_union(fa, id);
+//                 set_union(fa, ma);
+//                 for (int i = 0; i < k; i++)
+//                 {
+//                     cin >> cid;
+//                     set_union(fa, cid);
+//                     clan[fa].people.insert(cid);
+//                 }
+//                 cin >> house >> area;
+//                 clan[fa].area += area;
+//                 clan[fa].house += house;
+//             }
+//             else
+//             {
+//                 // 祖父（祖父必定创建家族）
+//                 int ffa = froot(fa);
+//                 // 父亲未创立家族
+//                 if (!vis[fa])
+//                 {
+//                     clan[ffa].people.insert(id);
+//                     clan[ffa].people.insert(ma);
+//                     clan[ffa].people.insert(fa);
+//                 }
+//                 else
+//                 {
+//                     // 家族扩大
+//                     clan[ffa].people.insert(clan[fa].people.begin(), clan[fa].people.end());
+//                     clan[ffa].area += clan[fa].area;
+//                     clan[ffa].house += clan[fa].house;
+//                     // 原家族解散
+//                     vis[fa] = 0;
+//                 }
+//                 set_union(ffa, id);
+//                 set_union(ffa, ma);
+//                 for (int i = 0; i < k; i++)
+//                 {
+//                     cin >> cid;
+//                     set_union(ffa, cid);
+//                     clan[ffa].people.insert(cid);
+//                 }
+//                 cin >> house >> area;
+//                 clan[ffa].area += area;
+//                 clan[ffa].house += house;
+//             }
+//         }
+//         // 父健母亡
+//         else if (fa != -1 && ma == -1)
+//         {
+//             // 一家之长
+//             if (family[fa] == fa)
+//             {
+//                 // 未创立家族
+//                 if (!vis[fa])
+//                 {
+//                     clan[fa].faid = fa;
+//                     clan[fa].people.insert(id);
+//                     // clan[fa].people.insert(ma);
+//                     clan[fa].people.insert(fa);
+//                     vis[fa] = 1;
+//                 }
+//                 else
+//                 {
+//                     clan[fa].people.insert(id);
+//                     // clan[fa].people.insert(ma);
+//                     clan[fa].people.insert(fa);
+//                 }
+//                 set_union(fa, id);
+//                 for (int i = 0; i < k; i++)
+//                 {
+//                     cin >> cid;
+//                     set_union(fa, cid);
+//                     clan[fa].people.insert(cid);
+//                 }
+//                 cin >> house >> area;
+//                 clan[fa].area += area;
+//                 clan[fa].house += house;
+//             }
+//             else
+//             {
+//                 // 祖父（祖父必定创建家族）
+//                 int ffa = froot(fa);
+//                 // 父亲未创立家族
+//                 if (!vis[fa])
+//                 {
+//                     clan[ffa].people.insert(id);
+//                     // clan[ffa].people.insert(ma);
+//                     clan[ffa].people.insert(fa);
+//                 }
+//                 else
+//                 {
+//                     // 家族扩大
+//                     clan[ffa].people.insert(clan[fa].people.begin(), clan[fa].people.end());
+//                     clan[ffa].area += clan[fa].area;
+//                     clan[ffa].house += clan[fa].house;
+//                     vis[fa] = 0;
+//                 }
+//                 set_union(ffa, id);
+//                 // family[ma] = ffa;
+//                 for (int i = 0; i < k; i++)
+//                 {
+//                     cin >> cid;
+//                     set_union(ffa, cid);
+//                     clan[ffa].people.insert(cid);
+//                 }
+//                 cin >> house >> area;
+//                 clan[ffa].area += area;
+//                 clan[ffa].house += house;
+//             }
+//         }
+//         // 父亡母健
+//         if (fa == -1 && ma != -1)
+//         {
+//             // 一家之母
+//             if (family[ma] == ma)
+//             {
+//                 // 未创立家族
+//                 if (!vis[ma])
+//                 {
+//                     clan[ma].faid = ma;
+//                     clan[ma].people.insert(id);
+//                     clan[ma].people.insert(ma);
+//                     vis[ma] = 1;
+//                 }
+//                 else
+//                 {
+//                     clan[ma].people.insert(id);
+//                     clan[ma].people.insert(ma);
+//                 }
+//                 set_union(ma, id);
+//                 for (int i = 0; i < k; i++)
+//                 {
+//                     cin >> cid;
+//                     set_union(ma, cid);
+//                     clan[ma].people.insert(cid);
+//                 }
+//                 cin >> house >> area;
+//                 clan[ma].area += area;
+//                 clan[ma].house += house;
+//             }
+//             else
+//             {
+//                 int fma = froot(ma);
+//                 // 母亲未创立家族
+//                 if (!vis[ma])
+//                 {
+//                     clan[fma].people.insert(id);
+//                     clan[fma].people.insert(ma);
+//                 }
+//                 else
+//                 {
+//                     // 家族扩大
+//                     clan[fma].people.insert(clan[ma].people.begin(), clan[ma].people.end());
+//                     clan[fma].area += clan[ma].area;
+//                     clan[fma].house += clan[ma].house;
+//                     vis[ma] = 0;
+//                 }
+//                 set_union(fma, id);
+//                 for (int i = 0; i < k; i++)
+//                 {
+//                     cin >> cid;
+//                     set_union(fma, cid);
+//                     clan[fma].people.insert(cid);
+//                 }
+//                 cin >> house >> area;
+//                 clan[fma].area += area;
+//                 clan[fma].house += house;
+//             }
+//         }
+//         // 父母双亡（自成一派）
+//         else
+//         {
+//             if (!vis[id])
+//             {
+//                 clan[id].faid = id;
+//                 for (int i = 0; i < k; i++)
+//                 {
+//                     cin >> cid;
+//                     clan[id].people.insert(cid);
+//                 }
+//                 cin >> house >> area;
+//                 clan[id].area += area;
+//                 clan[id].house += house;
+//                 vis[id] = 1;
+//             }
+//         }
+//     }
+//     for (int i = 0; i < MAXN; i++)
+//     {
+//         if (vis[i])
+//         {
+//             double num = clan[i].people.size();
+//             cout
+//                 << *(clan[i].people.begin()) << " " << num << " " << fixed << setprecision(3) << (clan[i].house * 1.0) / num << " " << (clan[i].area * 1.0) / num << endl;
+//         }
+//     }
+//     return 0;
+// }
+
+// 最长对称 SubString
+// #include <iostream>
+// #include <cstdio>
+// #include <cstring>
+// #include <string>
+// using namespace std;
+// string s;
+// int p[2010];
+// int main()
+// {
+//     getline(cin, s);
+//     int len = s.length(), id = 0, maxlen = 0;
+//     for (int i = len; i >= 0; --i)
+//     {
+//         s[i + i + 2] = s[i];
+//         s[i + i + 1] = '#';
+//     }
+//     s[0] = '*';
+//     for (int i = 2; i < 2 * len + 1; ++i)
+//     {
+//         if (p[id] + id > i)
+//             p[i] = p[2 * id - i] < p[id] + id - i ? p[2 * id - i] : p[id] + id - i;
+//         else
+//             p[i] = 1;
+//         while (s[i - p[i]] == s[i + p[i]])
+//             ++p[i];
+//         if (id + p[id] < i + p[i])
+//             id = i;
+//         if (maxlen < p[i])
+//             maxlen = p[i];
+//     }
+//     cout << maxlen - 1 << endl;
+//     return 0;
+// }
+
+// 犯二
+// #include <iostream>
+// #include <string>
+// #include <iomanip>
+// using namespace std;
+// int main()
+// {
+//     string n;
+//     cin >> n;
+//     double num = 0, length;
+//     n[0] == '-' ? length = n.length() - 1 : length = n.length();
+//     for (int i = 0; i < n.length(); i++)
+//     {
+//         if (n[i] == '2')
+//         {
+//             num++;
+//         }
+//     }
+//     n[0] == '-' ? num *= 1.5 : num *= 1;
+//     (n[n.length() - 1] - '0') % 2 == 0 ? num *= 2 : num *= 1;
+//     cout << fixed << setprecision(2) << num / length * 100 << "%" << endl;
+//     return 0;
+// }
+
+// 帅炸了
+// #include <iostream>
+// #include <vector>
+// #include <set>
+// using namespace std;
+// const int MAXN = 1005;
+// vector<int> S(MAXN), ans;
+// vector<bool> vis(MAXN, false);
+// set<int> psearch;
+// vector<bool> alsearch(MAXN, false);
+// void init()
+// {
+//     for (int i = 0; i < MAXN; i++)
+//     {
+//         S[i] = i;
+//     }
+// }
+// int froot(int x)
+// {
+//     if (S[x] != x)
+//     {
+//         S[x] = froot(S[x]);
+//     }
+//     return S[x];
+// }
+// void set_union(int x, int y)
+// {
+//     int fx = froot(x);
+//     int fy = froot(y);
+//     if (fx != fy)
+//     {
+//         S[fx] = fy;
+//     }
+// }
+// int main()
+// {
+//     int N;
+//     cin >> N;
+//     while (N--)
+//     {
+//         int k, f;
+//         cin >> k;
+//         if (k == 1)
+//         {
+//             cin >> f;
+//             continue;
+//         }
+//         for (int i = 0; i < k; i++)
+//         {
+//             cin >> f;
+//             vis[f] = true;
+//         }
+//     }
+//     int M, flag = 1;
+//     cin >> M;
+//     for (int i = 0; i < M; i++)
+//     {
+//         int p;
+//         cin >> p;
+//         if (alsearch[p])
+//         {
+//             continue;
+//         }
+//         if (!vis[p])
+//         {
+//             ans.push_back(p);
+//             flag = 0;
+//         }
+//         alsearch[p] = true;
+//     }
+//     if (flag)
+//     {
+//         cout << "No one is handsome" << endl;
+//     }
+//     else
+//     {
+//         for (int i = 0; i < ans.size(); i++)
+//         {
+//             cout << ans[i];
+//             if (i != ans.size() - 1)
+//             {
+//                 cout << " ";
+//             }
+//         }
+//     }
+//     return 0;
+// }
+
+// 抢红包
+// #include <iostream>
+// #include <vector>
+// #include <iomanip>
+// using namespace std;
+// const int MAXN = 100001;
+// struct people
+// {
+//     int id, num;
+//     double mon;
+//     people(int i = -1, double m = 0, int n = 0) : id(i), mon(m), num(n) {};
+// };
+// vector<people> p(MAXN);
+// bool compare(const people &a, const people &b)
+// {
+//     if (a.mon != b.mon)
+//     {
+//         return a.mon > b.mon;
+//     }
+//     else if (a.num != b.num)
+//     {
+//         return a.num > b.num;
+//     }
+//     else
+//     {
+//         return a.id < b.id;
+//     }
+// }
+// int main()
+// {
+//     int N;
+//     cin >> N;
+//     for (int i = 1; i <= N; i++)
+//     {
+//         p[i].id = i;
+//     }
+//     for (int i = 1; i <= N; i++)
+//     {
+//         int k, n;
+//         double np, sum = 0;
+//         cin >> k;
+//         for (int j = 0; j < k; j++)
+//         {
+//             cin >> n >> np;
+//             p[n].num++;
+//             if (n != i)
+//             {
+//                 p[n].mon += np;
+//                 sum += np;
+//             }
+//         }
+//         p[i].mon -= sum;
+//     }
+//     sort(p.begin() + 1, p.begin() + N + 1, compare);
+//     for (int i = 1; i <= N; i++)
+//     {
+//         cout << p[i].id << fixed << setprecision(2) << " " << p[i].mon / 100.0 << endl;
+//     }
+//     return 0;
+// }
+
+// 吃席
+// #include <iostream>
+// #include <vector>
+// #include <set>
+// using namespace std;
+// const int MAXN = 1005;
+// vector<int> S(MAXN);
+// long long rel[MAXN][MAXN];
+// void init()
+// {
+//     for (int i = 0; i < MAXN; i++)
+//     {
+//         S[i] = i;
+//     }
+// }
+// int froot(int x)
+// {
+//     if (S[x] != x)
+//     {
+//         S[x] = froot(S[x]);
+//     }
+//     return S[x];
+// }
+// void set_union(int x, int y)
+// {
+//     int fx = froot(x);
+//     int fy = froot(y);
+//     if (fx != fy)
+//     {
+//         S[fx] = fy;
+//     }
+// }
+// int main()
+// {
+//     int N;
+//     cin >> N;
+//     int M, K;
+//     cin >> M >> K;
+//     init();
+//     while (M--)
+//     {
+//         int a, b, r;
+//         cin >> a >> b >> r;
+//         if (r == 1)
+//         {
+//             set_union(a, b);
+//         }
+//         else
+//         {
+//             rel[a][b] = -1;
+//             rel[b][a] = -1;
+//         }
+//     }
+//     while (K--)
+//     {
+//         int a, b;
+//         cin >> a >> b;
+//         if (froot(a) == froot(b) && rel[a][b] != -1)
+//         {
+//             cout << "No problem" << endl;
+//         }
+//         else if (froot(a) == froot(b) && rel[a][b] == -1)
+//         {
+//             cout << "OK but..." << endl;
+//         }
+//         else if (froot(a) != froot(b) && rel[a][b] != -1)
+//         {
+//             cout << "OK" << endl;
+//         }
+//         else
+//         {
+//             cout << "No way" << endl;
+//         }
+//     }
+//     return 0;
+// }
+
+// 租房
+// #include <iostream>
+// #include <set>
+// #include <string>
+// using namespace std;
+// int main()
+// {
+//     string phone;
+//     cin >> phone;
+//     set<int, greater<int>> sarr;
+//     for (int i = 0; i < 11; i++)
+//     {
+//         sarr.insert(phone[i] - '0');
+//     }
+//     vector<int> arr, ans;
+//     while (!sarr.empty())
+//     {
+//         long long top = *sarr.begin();
+//         arr.push_back(top);
+//         sarr.erase(top);
+//     }
+//     for (int i = 0; i < 11; i++)
+//     {
+//         long long num = phone[i] - '0';
+//         for (int i = 0; i < arr.size(); i++)
+//         {
+//             if (num == arr[i])
+//             {
+//                 ans.push_back(i);
+//             }
+//         }
+//     }
+//     cout << "int[] arr = new int[]{";
+//     for (int i = 0; i < arr.size(); i++)
+//     {
+//         cout << arr[i];
+//         if (i != arr.size() - 1)
+//         {
+//             cout << ",";
+//         }
+//     }
+//     cout << "};" << endl;
+//     cout << "int[] index = new int[]{";
+//     for (int i = 0; i < ans.size(); i++)
+//     {
+//         cout << ans[i];
+//         if (i != ans.size() - 1)
+//         {
+//             cout << ",";
+//         }
+//     }
+//     cout << "};";
+//     return 0;
+// }
+
+// Prime
+// #include<iostream>
+// #include<cmath>
+// using namespace std;
+// bool isprime(long long x)
+// {
+//     if(x==1){
+//         return false;
+//     }
+//     if(x==2){
+//         return true;
+//     }
+//     for(long long i=2;i<=sqrt(x);i++){
+//         if(x%i!=0){
+//             continue;
+//         }
+//         else
+//         {
+//             return false;
+//         }
+//     }
+//     return true;
+// }
+// int main()
+// {
+//     long long N,x;
+//     cin>>N;
+//     while(N--){
+//         cin>>x;
+//         isprime(x)? cout<<"Yes"<<endl:cout<<"No"<<endl;
+//     }
+//     return 0;
+// }
+
+// Left-pad
+// #include<iostream>
+// #include<string>
+// using namespace std;
+// int main(){
+//     long long N;
+//     char ch;
+//     string s;
+//     cin>>N>>ch;
+//     getchar();
+//     getline(cin,s);
+//     if(s.length()<N){
+//         for(int i=0;i<N-s.length();i++){
+//             cout<<ch;
+//         }
+//         cout<<s;
+//     }
+//     else{
+//         cout<<s.substr(s.length()-N,N);
+//     }
+//     return 0;
+// }
+
+// 红色预警
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+// #define ll long long
+// const int N = 109;
+// // 回联、访问、时间戳（记录迭代顺序）
+// int low[N], num[N], dfn;
+// // 割点
+// bool iscut[N];
+// vector<int> G[N];
+// // fa为u父节点
+// void DFS(int u, int fa)
+// {
+//     dfn++;
+//     num[u] = dfn;
+//     low[u] = dfn;
+//     long long child = 0;
+//     for (int i = 0; i < G[u].size(); i++)
+//     {
+//         int v = G[u][i];
+//         // num[v]为0，即节点v未被访问
+//         if (!num[v])
+//         {
+//             // u子节点++
+//             child++;
+//             DFS(v, u);
+//             low[u] = min(low[v], low[u]);
+//             // low[v] >= num[u] && u != 1，则u为割点
+//             // low[v] > num[u]，则u->v为割边
+//             if (low[v] >= num[u] && u != 1)
+//             {
+//                 iscut[u] = true;
+//             }
+//         }
+//         // 不Call Back父节点，Call Back祖先节点
+//         else if (num[v] < num[u] && v != fa)
+//         {
+//             low[u] = min(low[u], num[v]);
+//         }
+//     }
+//     // 根节点子树大于2，割点
+//     if (u == 1 && child >= 2)
+//     {
+//         iscut[1] = true;
+//     }
+// }
+// int main()
+// {
+//     int ans, n, m;
+//     cin >> n >> m;
+//     for (int i = 0; i < m; i++)
+//     {
+//         int u, v;
+//         cin >> u >> v;
+//         // 无向
+//         G[u].push_back(v);
+//         G[v].push_back(u);
+//     }
+//     memset(low, 0, sizeof(low));
+//     memset(num, 0, sizeof(num));
+//     dfn = 0;
+//     memset(iscut, false, sizeof(iscut));
+//     ans = 0;
+//     // Start Point: 1
+//     DFS(1, -1);
+//     for (int i = 1; i <= n; i++)
+//     {
+//         ans += iscut[i];
+//     }
+//     cout << ans << endl;
+//     // for (int i = 1; i <= n; i++)
+//     // {
+//     //     cout << low[i] << " " << num[i] << endl;
+//     // }
+//     return 0;
+// }
+
+// const ll N = 1e3 + 7;
+// ll n, m, k;
+// ll v[N], G[N][N];
+
+// ll froot(ll x)
+// {
+//     if (v[x] == x)
+//         return x;
+//     return v[x] = froot(v[x]);
+// }
+// void set_union(ll x, ll y)
+// {
+//     ll tx = froot(x), ty = froot(y);
+//     if (tx > ty)
+//         swap(tx, ty);
+//     v[ty] = tx;
+//     return;
+// }
+// void init()
+// {
+//     for (ll i = 0; i < n; i++)
+//         v[i] = i;
+// }
+// void solve()
+// {
+//     cin >> n >> m;
+//     init();
+//     ll x, y, c, sum = 0;
+//     while (m--)
+//     {
+//         cin >> x >> y;
+//         // Matrix
+//         G[x][y] = G[y][x] = 1;
+//         if (froot(x) != froot(y))
+//             set_union(x, y);
+//     }
+//     for (ll i = 0; i < n; i++)
+//         if (v[i] == i)
+//             sum++;
+//     cin >> k;
+//     for (ll i = 0; i < k; i++)
+//     {
+//         cin >> c;
+//         for (ll i = 0; i < n; i++)
+//             G[i][c] = G[c][i] = 0; // 清链
+//         init();
+//         for (ll i = 0; i < n; i++)
+//             for (ll j = 0; j < n; j++)
+//                 if (G[i][j])
+//                     set_union(i, j);
+//         ll nsum = 0;
+//         for (ll i = 0; i < n; i++)
+//             if (i == v[i])
+//                 nsum++;
+//         // 由于init，所以被删除点i的v[i]等于i，故nsum++，仅当i为割点时，nsum大于sum+1
+//         if (nsum <= sum + 1)
+//             cout << "City " << c << " is lost." << endl;
+//         else
+//             cout << "Red Alert: City " << c << " is lost!" << endl;
+//         sum = nsum; // 独立城市群
+//     }
+//     if (n == k)
+//         cout << "Game Over." << endl;
+//     return;
+// }
+// int main()
+// {
+//     ll t = 1;
+//     while (t--)
+//         solve();
+//     return 0;
+// }
+
+// upper-bound
+// #include <iostream>
+// #include <vector>
+// using namespace std;
+// int main()
+// {
+//     long long N;
+//     cin >> N;
+//     vector<long long> arr, tail;
+//     for (int i = 0; i < N; i++)
+//     {
+//         long long x;
+//         cin >> x;
+//         arr.push_back(x);
+//     }
+//     for (auto num : arr)
+//     {
+//         // cout<<num<<endl;
+//         // 首个小于num的值的迭代器
+//         auto it = upper_bound(tail.begin(), tail.end(), num);
+//         if (it == tail.end())
+//         {
+//             tail.push_back(num);
+//         }
+//         else
+//         {
+//             *it = num;
+//         }
+//     }
+//     cout << tail.size();
+//     return 0;
+// }
+
+// 互评成绩
+// #include <iostream>
+// #include <set>
+// #include <queue>
+// using namespace std;
+// int main()
+// {
+//     long long n, k, m, score;
+//     double sum = 0;
+//     priority_queue<double> ans;
+//     cin >> n >> k >> m;
+//     long long nm = m;
+//     for (int i = 0; i < n; i++)
+//     {
+//         priority_queue<long long> pq;
+//         sum = 0;
+//         for (int j = 0; j < k; j++)
+//         {
+//             cin >> score;
+//             pq.push(score);
+//         }
+//         pq.pop();
+//         while (pq.size() > 1)
+//         {
+//             sum += pq.top();
+//             pq.pop();
+//         }
+//         sum /= (k - 2);
+//         ans.push(sum);
+//     }
+//     vector<double> a;
+//     while (m--)
+//     {
+//         a.push_back(ans.top());
+//         ans.pop();
+//     }
+//     return 0;
+// }
+
+// 兄妹
+// #include <bits/stdc++.h>
+// using namespace std;
+// #define IOS ios::sync_with_stdio(0), cin.tie(0), cout.tie(0)
+// #define endl "\n"
+// #define fi first
+// #define se second
+// const int N = 1e6 + 10, INF = 0x3f3f3f3f;
+// long long n, k, flag = 0;
+// char sex[N];      // 性别
+// vector<int> e[N]; // 关系谱
+// set<int> s1, s2;  // 五代
+// void dfs(long long u, long long dep)
+// {
+//     if (dep > 5)
+//         return; // 超过五代
+//     if (!flag)
+//         s1.insert(u); // Male
+//     else
+//         s2.insert(u); // Female
+//                       // 遍历u→Parents
+//     for (auto j : e[u])
+//     {
+//         if (j == -1)
+//             continue;
+//         dfs(j, dep + 1);
+//     }
+// }
+
+// void solve()
+// {
+//     cin >> n;
+//     for (int i = 1; i <= n; i++)
+//     {
+//         long long a, b, c;
+//         char gender;
+//         cin >> a >> gender >> b >> c;
+//         sex[a] = gender;
+//         sex[b] = 'M';
+//         sex[c] = 'F'; // Parents Gender
+//         e[a].push_back(b);
+//         e[a].push_back(c);
+//     }
+//     cin >> k;
+//     while (k--)
+//     {
+//         long long a, b;
+//         cin >> a >> b;
+//         flag = 0;
+//         s1.clear();
+//         dfs(a, 1); // 向上a五代以亲人
+//         flag = 1;
+//         s2.clear();
+//         dfs(b, 1); // 向上b五代以亲人
+//         bool f = false;
+//         for (auto i : s2)
+//             if (s1.count(i))
+//                 f = true; // 近亲
+//         if (sex[a] == sex[b])
+//             cout << "Never Mind" << endl; // 同性
+//         else if (f)
+//             cout << "No" << endl;
+//         else
+//             cout << "Yes" << endl;
+//     }
+// }
+// signed main()
+// {
+//     IOS;
+//     long long T = 1;
+//     while (T--)
+//     {
+//         solve();
+//     }
+//     return 0;
+// }
+
+// 点赞
+// #include <iostream>
+// #include <map>
+// #include <vector>
+// #include <algorithm>
+// using namespace std;
+// bool compare(const pair<int, int> &a, const pair<int, int> &b)
+// {
+//     if (a.second != b.second)
+//     {
+//         return a.second > b.second;
+//     }
+//     else
+//     {
+//         return a.first < b.first;
+//     }
+// }
+// int main()
+// {
+//     long long n, k, tag;
+//     cin >> n;
+//     map<int, int> mp;
+//     while (n--)
+//     {
+//         cin >> k;
+//         for (int i = 0; i < k; i++)
+//         {
+//             cin >> tag;
+//             mp[tag]++;
+//         }
+//     }
+//     vector<pair<int, int>> ans(mp.begin(), mp.end());
+//     sort(ans.begin(), ans.end(), compare);
+//     cout << ans[0].first << " " << ans[0].second;
+//     return 0;
+// }
+
+// 古风排版
+// #include <bits/stdc++.h>
+// using namespace std;
+// int main()
+// {
+//     long long n, length, col, re, k = 0;
+//     cin >> n;
+//     cin.ignore();
+//     string s;
+//     getline(cin, s);
+//     length = s.length();
+//     col = length / n;
+//     re = length % n;
+//     char ans[n][col + 1];
+//     memset(ans, ' ', sizeof(ans));
+//     for (int j = col; j > 0; j--)
+//     {
+//         for (int i = 0; i < n; i++)
+//         {
+//             ans[i][j] = s[k];
+//             k++;
+//         }
+//     }
+//     for (int i = 0; i < re; i++)
+//     {
+//         ans[i][0] = s[col * n + i];
+//     }
+//     for (int i = 0; i < n; i++)
+//     {
+//         for (int j = 0; j < (col + 1); j++)
+//         {
+//             cout << ans[i][j];
+//         }
+//         if (i != n - 1)
+//             cout << endl;
+//     }
+//     return 0;
+// }
+
+// 最小子序列
+// #include <iostream>
+// #define ll long long
+// using namespace std;
+// int main()
+// {
+//     ll n, k, top = -1;
+//     cin >> n >> k;
+//     char stack[n], c;
+//     for (ll i = 0; i < n; i++)
+//     {
+//         cin >> c;
+//         if (top == -1)
+//         {
+//             top++;
+//             stack[top] = c;
+//             continue;
+//         }
+//         if (c >= stack[top])
+//         {
+//             if (top == k - 1)
+//             {
+//                 continue;
+//             }
+//             top++;
+//             stack[top] = c;
+//         }
+//         else
+//         {
+//             while (((n - i) > (k - top - 1)) && (c < stack[top]))
+//             {
+//                 top--;
+//             }
+//             top++;
+//             stack[top] = c;
+//         }
+//     }
+//     for (ll i = 0; i <= top; i++)
+//     {
+//         cout << stack[i];
+//     }
+//     return 0;
+// }
+
+// 点外卖
+// #include <iostream>
+// using namespace std;
+// typedef long long ll;
+// const ll MOD = 1000000007;
+
+// ll modPow(ll base, ll exp)
+// {
+//     ll res = 1 % MOD;
+//     base %= MOD;
+//     while (exp > 0)
+//     {
+//         if (exp & 1)
+//             res = (res * base) % MOD;
+//         base = (base * base) % MOD;
+//         exp >>= 1;
+//     }
+//     return res;
+// }
+
+// // 模逆元
+// ll modInv(ll x)
+// {
+//     return modPow(x, MOD - 2);
+// }
+
+// // 状态转移树过大，开销无法承受
+// // 转化为组合计数
+// // m==1 时 C(n-k+1, k)
+// ll calcComb(ll n, ll k)
+// {
+//     if (k > n)
+//         return 0;
+//     ll res = 1;
+//     for (ll i = 1; i <= k; i++)
+//     {
+//         // C(n, k)=n*(n-1)*...*(n-k+1)/k!
+//         res = res * ((n - i + 1) % MOD) % MOD;
+//         res = res * modInv(i) % MOD;
+//     }
+//     return res;
+// }
+
+// signed main()
+// {
+//     ios::sync_with_stdio(false);
+//     cin.tie(nullptr);
+
+//     ll T;
+//     cin >> T;
+//     while (T--)
+//     {
+//         ll n, m, k;
+//         cin >> n >> m >> k;
+
+//         if (k > n)
+//         {
+//             cout << 0 << "\n";
+//             continue;
+//         }
+//         if (k == 0)
+//         {
+//             cout << 1 << "\n";
+//             continue;
+//         }
+
+//         if (m == 1)
+//         {
+//             // n-k+1 >= k 才合法，否则为0
+//             ll ans = (n - k + 1 >= k ? calcComb(n - k + 1, k) : 0);
+//             cout << ans % MOD << "\n";
+//             continue;
+//         }
+
+//         // m >= 2
+//         ll L = min(k, n - k + 1);
+//         // T(1) = (n-k+1) * m * (m-1)^(k-1)
+//         ll term = ((n - k + 1) % MOD) * (m % MOD) % MOD;
+//         term = term * modPow(m - 1, k - 1) % MOD;
+//         ll ans = term;
+
+//         // r个片段
+//         for (ll r = 1; r < L; r++)
+//         {
+//             // 迭代+求和
+//             ll numerator = (((n - k + 1 - r) % MOD) * ((k - r) % MOD)) % MOD;
+//             // T(r)=\binom{n-k+1}{r}\binom{k-1}{r-1}m^r(m-1)^{k-r}\.
+//             ll denominator = (((r + 1) % MOD) * (r % MOD)) % MOD;
+//             denominator = (denominator * ((m - 1) % MOD)) % MOD;
+//             ll factor = numerator * modInv(denominator) % MOD;
+//             term = term * factor % MOD;
+//             ans = (ans + term) % MOD;
+//         }
+
+//         cout << ans % MOD << "\n";
+//     }
+//     return 0;
+// }
+
+// 块排序
+// #include <iostream>
+// #include <vector>
+// #include <algorithm>
+// #define ll long long
+// using namespace std;
+// signed main()
+// {
+//     ll n, k, x;
+//     cin >> n >> k;
+//     vector<ll> arr(n + 1), vis(n + 1);
+//     for (ll i = 1; i <= n; i++)
+//     {
+//         cin >> arr[i];
+//         vis[i] = 0;
+//     }
+//     vector<ll> sarr = arr;
+//     sort(sarr.begin(), sarr.end());
+//     // 分k块
+//     for (ll x = 2; x <= n; x++)
+//     {
+//         bool flag = true;
+//         for (ll t = 1; t <= x; t++)
+//         {
+//             for (ll r = t; r <= n; r += x)
+//             {
+//                 if ((arr[r] - t) % x != 0)
+//                 {
+//                     flag = false;
+//                     break;
+//                 }
+//             }
+//             if (!flag)
+//             {
+//                 break;
+//             }
+//         }
+//         if (flag)
+//         {
+//             vis[x] = 1;
+//         }
+//     }
+//     while (k--)
+//     {
+//         cin >> x;
+//         if (x == 1)
+//         {
+//             cout << "YES" << endl;
+//         }
+//         else
+//         {
+//             vis[x] ? cout << "YES" : cout << "NO";
+//             cout << endl;
+//         }
+//     }
+//     return 0;
+// }
+
+//
