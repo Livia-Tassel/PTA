@@ -4,7 +4,7 @@ cin.tie(NULL);
 // 辗转相除
 long long gcd(long long a, long long b)
 {
-    return (b == 0) ? a : gac(b, a % b);
+    return (b == 0) ? a : gcd(b, a % b);
 }
 
 // set
